@@ -36,7 +36,7 @@ public class EventOption {
     @Column(name = "dc_rate", nullable = false)
     private Float dcRate;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 

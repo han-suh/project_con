@@ -44,7 +44,7 @@ public class UserFollow {
     @JoinColumn(name = "followee_id", nullable = false)
     private User followees;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "followed_at")
     private Instant followedAt;
 

@@ -32,7 +32,7 @@ public class UserInquireReply {
     @Column(name = "reply_contents", nullable = false)
     private String replyContents;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "replied_at")
     private Instant repliedAt;
 

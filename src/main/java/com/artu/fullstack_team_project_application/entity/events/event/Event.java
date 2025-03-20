@@ -37,9 +37,10 @@ public class Event {
     @Column(name = "address", nullable = false, length = 100)
     private String address;
 
-    @ColumnDefault("'0'")
+    // @ColumnDefault("'0'")
     @Lob
-    @Column(name = "age_limit", nullable = false)
+    // @Column(name = "age_limit", nullable = false)
+    @Column(name = "age_limit", columnDefinition = "VARCHAR(255) DEFAULT '0' NOT NULL")
     private String ageLimit;
 
     @Column(name = "how_long", nullable = false)

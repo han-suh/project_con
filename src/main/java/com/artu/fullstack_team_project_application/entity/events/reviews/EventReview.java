@@ -39,7 +39,7 @@ public class EventReview {
     @Column(name = "is_used", nullable = false)
     private Boolean isUsed = false;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at", nullable = false)
     private LocalDate createdAt;
 

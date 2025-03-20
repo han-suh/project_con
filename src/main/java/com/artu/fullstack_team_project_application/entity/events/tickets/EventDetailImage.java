@@ -33,7 +33,7 @@ public class EventDetailImage {
     @Column(name = "img_order", nullable = false)
     private Integer imgOrder;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 

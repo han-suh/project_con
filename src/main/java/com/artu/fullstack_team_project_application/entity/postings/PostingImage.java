@@ -33,8 +33,10 @@ public class PostingImage {
     @Column(name = "img_url", nullable = false)
     private String imgUrl;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private Instant createdAt;
+
+
 
 }

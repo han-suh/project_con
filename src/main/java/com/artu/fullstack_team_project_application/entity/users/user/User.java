@@ -10,6 +10,8 @@ import com.artu.fullstack_team_project_application.entity.postings.UserFollow;
 import com.artu.fullstack_team_project_application.entity.users.base.*;
 import com.artu.fullstack_team_project_application.entity.widgets.Widget;
 import com.artu.fullstack_team_project_application.entity.widgets.WidgetDetail;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +22,7 @@ import org.hibernate.annotations.Where;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -96,6 +99,7 @@ public class User {
 
     // Posting 엔티티와의 관계 설정
     @OneToMany(mappedBy = "user")
+    // @JsonManagedReference // 순환 참조를 방지하는 어노테이션
     private Set<Posting> postings = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "user")

@@ -29,7 +29,7 @@ public class ActorsImage {
     @JoinColumn(name = "actor_id", nullable = false)
     private com.artu.fullstack_team_project_application.entity.events.event.Actor actor;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 

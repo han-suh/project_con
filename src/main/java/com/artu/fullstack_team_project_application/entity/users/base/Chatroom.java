@@ -27,7 +27,7 @@ public class Chatroom {
     @JoinColumn(name = "related_event")
     private Event relatedEvent;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private Instant createdAt;
 

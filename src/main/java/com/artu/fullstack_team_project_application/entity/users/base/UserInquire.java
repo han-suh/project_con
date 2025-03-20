@@ -42,7 +42,7 @@ public class UserInquire {
     @Column(name = "inquiry_img_url")
     private String inquiryImgUrl;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private Instant createdAt;
 

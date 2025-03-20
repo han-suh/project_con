@@ -38,7 +38,7 @@ public class UserSetting {
     @Column(name = "language")
     private Language language;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "set_at")
     private Instant setAt;
 

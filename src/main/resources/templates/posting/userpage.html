@@ -12,10 +12,50 @@
 <p th:text="${countFollowerCount}">팔로워 수</p>
 <p><a th:href="@{'/posting/{userId}/followee.do'(userId=${user.userId})}">팔로우</a></p>
 <p th:text="${countFolloweeCount}">팔로우 수</p>
+
 <div>
     <button id="postingBtn">포스트</button>
-    <div id="postLocation"></div>
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>contents</th>
+                <th>장소</th>
+                <th>사람</th>
+            </tr>
+            </thead>
+            <tbody id="postTbody">
+
+            </tbody>
+        </table>
+    </div>
 </div>
 
 </body>
+
+<script>
+    // const USER_ID=[[${user.userId}]]
+    // console.log(USER_ID);
+
+   //  const postingBtn=document.getElementById("postingBtn");
+   //  const postTbody=document.getElementById("postTbody");
+   //
+   //  const postUser=async function(){
+   //      let url=`/posting/${USER_ID}/postpage.do`
+   //      let response = await fetch(url);
+   //      let data = await response.json();
+   //
+   //      console.log(data);
+   //      let html = "";
+   //      for(let postings of data){
+   //          html+=`<tr>
+   //                    <td th:text="${postings.contents}"></td>
+   //                  </tr>`
+   //      }
+   //      postTbody.innerHTML=html;
+   //  }
+   //
+   // postingBtn.addEventListener("click",postUser)
+</script>
+
 </html>

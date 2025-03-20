@@ -37,7 +37,7 @@ public class PostingComment {
     @Column(name = "contents", nullable = false)
     private String contents;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private Instant createdAt;
 

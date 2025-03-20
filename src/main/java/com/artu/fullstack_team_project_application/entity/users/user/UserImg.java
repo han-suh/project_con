@@ -26,7 +26,7 @@ public class UserImg {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "create_at")
     private Instant createAt;
 

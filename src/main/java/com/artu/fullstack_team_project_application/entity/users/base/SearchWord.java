@@ -24,7 +24,7 @@ public class SearchWord {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "search_at")
     private Instant searchAt;
 

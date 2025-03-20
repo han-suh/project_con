@@ -9,28 +9,31 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface PostingService {
+
     @Transactional
     // posting 등록 및 수정
-    Posting save(Posting posting);
+    // Posting save(Posting posting);
 
     // posting 삭제
-    void remove(Posting posting);
+    // void remove(Posting posting);
 
     // posting 리스트
-//    Page<Posting> findAll(Pageable pageable);
-//
-//    // user 게시글
-//    List<Posting> findByUser_UserId(String userId);
+    // Page<Posting> findAll(Pageable pageable);
+
+    // user 게시글
+    Set<Posting> findByUserId(String userId);
+
+    // post_Id
+    // Set<Posting> findByPostId(Integer postId);
 
     // 게시글 이미지
-    // List<PostingImage> findByPost_PostId(Posting postId);
+    // List<PostingImage> findPostingImageByPost_PostId(Integer postId);
 
-    // bookmark
-    // Map<String, Long> getUserActivityCounts(Long userNum);
+    // 게시글 user 이미지
+    // List<PostingImage> findPostingImageByUser_UserId(String userId);
 
-    // post_like 리스트
-    // List<PostingLike> readAllLikes();
 
 }

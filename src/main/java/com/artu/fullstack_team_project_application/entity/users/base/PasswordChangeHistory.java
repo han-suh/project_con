@@ -27,7 +27,7 @@ public class PasswordChangeHistory {
     @Column(name = "old_pw", nullable = false)
     private String oldPw;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "changed_at")
     private Instant changedAt;
 

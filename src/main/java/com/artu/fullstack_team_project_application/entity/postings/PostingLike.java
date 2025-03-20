@@ -43,7 +43,7 @@ public class PostingLike {
     @JoinColumn(name = "post_id", nullable = false)
     private Posting post;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "liked_at")
     private Instant likedAt;
 

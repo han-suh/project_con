@@ -1,6 +1,7 @@
 package com.artu.fullstack_team_project_application.entity.postings;
 
 import com.artu.fullstack_team_project_application.entity.users.user.User;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -22,9 +23,13 @@ public class Posting {
     @Column(name = "post_id", nullable = false)
     private Integer postId;
 
+    @Column(name = "user_id", nullable = false, length = 50)
+    private String userId;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false) //
+    @JsonBackReference // 순환 참조를 방지하는 어노테이션
     private User user;
 
     @Lob
@@ -42,7 +47,7 @@ public class Posting {
     @Column(name = "visibility_type")
     private String visibilityType;
 
-    @ColumnDefault("CURRENT_TIMESTAMP")
+    // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private Instant createdAt;
 

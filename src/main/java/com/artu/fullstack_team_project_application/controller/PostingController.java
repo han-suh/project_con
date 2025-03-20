@@ -1,5 +1,6 @@
 package com.artu.fullstack_team_project_application.controller;
 
+import com.artu.fullstack_team_project_application.entity.postings.Posting;
 import com.artu.fullstack_team_project_application.entity.postings.UserFollow;
 import com.artu.fullstack_team_project_application.entity.users.user.User;
 import com.artu.fullstack_team_project_application.service.postings.PostingService;
@@ -10,10 +11,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/posting")
@@ -59,6 +62,33 @@ public class PostingController {
         // 템플릿에 user, followerCounts, followeeCounts를 전달
         return "posting/userpage";
     }
+
+//    public List<Posting> findByUser_UserId(@PathVariable String userId, Model model) {
+//        return postingService.findByUserId(userId);
+//    }
+
+
+//    @GetMapping("/{userId}/postpage.do")
+//    @ResponseBody
+//    public List<Posting> postpage(
+//            @PathVariable String userId,
+//            Model model) {
+//         List<Posting> postings = postingService.findByUserId(userId);
+//         Optional<User> userOptional = userService.readOne(userId);
+//         User user = userOptional.get();
+//         model.addAttribute("userId", userId);
+//         model.addAttribute("postings", postings);
+//        //return "posting/postpage";
+//    }
+
+    @GetMapping("/{userId}/postpage.do")
+    @ResponseBody
+    public Set<Posting> postpage(
+            @PathVariable String userId) {
+        Set<Posting> postings = postingService.findByUserId(userId);
+        return postings;
+    }
+
 
 
 
