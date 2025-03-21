@@ -1,5 +1,6 @@
 package com.artu.fullstack_team_project_application.entity.postings;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -22,9 +23,14 @@ public class PostingImage {
     @Column(name = "img_id", nullable = false)
     private Integer imgId;
 
+//    @Column(name = "post_id", nullable = false, length = 50)
+//    private Integer postId;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "post_id", nullable = false)
+    @JoinColumn(name = "post_id", nullable = false, insertable = false, updatable = false) // 순환 참조 방지에 따른 user 조회 안되는걸 방지하기 위해서 insertable = false, updatable = false
+    @JsonBackReference // 순환 참조를 방지하는 어노테이션
+    @ToString.Exclude
     private Posting post;
 
     @Column(name = "img_order", nullable = false)
@@ -36,6 +42,7 @@ public class PostingImage {
     // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at")
     private Instant createdAt;
+
 
 
 

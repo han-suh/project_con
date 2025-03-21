@@ -24,20 +24,19 @@ public class PostingLike {
 
     @Id
     @Column(name = "user_id", nullable = false)
-    private User userId;
+    private String userId;
 
     @Id
     @Column(name = "post_id", nullable = false)
-    private String postId;
+    private Integer postId;
 
-
-    @MapsId("userId")
+    // @MapsId("userId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @MapsId("postId")
+    // @MapsId("postId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "post_id", nullable = false)

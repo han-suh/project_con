@@ -16,7 +16,7 @@
 <div>
     <button id="postingBtn">포스트</button>
     <div>
-        <table>
+        <table id="postTable">
             <thead>
             <tr>
                 <th>contents</th>
@@ -48,9 +48,16 @@
    //      console.log(data);
    //      let html = "";
    //      for(let postings of data){
-   //          html+=`<tr>
-   //                    <td th:text="${postings.contents}"></td>
-   //                  </tr>`
+   //          html+=`            <thead>
+   //  <tr>
+   //      <th>contents</th>
+   //      <th>장소</th>
+   //      <th>사람</th>
+   //  </tr>
+   //  </thead>
+   //  <tbody id="postTbody">
+   //
+   //  </tbody>`
    //      }
    //      postTbody.innerHTML=html;
    //  }

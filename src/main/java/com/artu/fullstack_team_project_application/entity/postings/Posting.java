@@ -10,6 +10,8 @@ import lombok.ToString;
 import org.hibernate.annotations.*;
 
 import java.time.Instant;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -28,7 +30,7 @@ public class Posting {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false) //
+    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false) // 순환 참조 방지에 따른 user 조회 안되는걸 방지하기 위해서 insertable = false, updatable = false
     @JsonBackReference // 순환 참조를 방지하는 어노테이션
     private User user;
 
@@ -57,5 +59,13 @@ public class Posting {
     @ColumnDefault("1")
     @Column(name = "is_used")
     private Boolean isUsed;
+
+    @OneToMany(mappedBy = "post")
+    private Set<PostingImage> postingImages = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "post")
+    private Set<PostingComment> postingComments = new LinkedHashSet<>();
+
+
 
 }

@@ -3,6 +3,7 @@ package com.artu.fullstack_team_project_application.repository.postings;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,12 +18,8 @@ class PostingRepositoryTest {
     }
 
     @Test
-    void findByUserId() {
-        //System.out.println(postingRepository.findByUserId("user1"));
-    }
-
-    @Test
-    void findByPostId() {
-        // System.out.println(postingRepository.findByPostId(1));
+    @Transactional
+    void findByUser_UserId() {
+        System.out.println(postingRepository.findByUser_UserId("user1"));
     }
 }

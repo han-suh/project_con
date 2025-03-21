@@ -1,6 +1,7 @@
 package com.artu.fullstack_team_project_application.entity.postings;
 
 import com.artu.fullstack_team_project_application.entity.users.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
@@ -23,14 +24,24 @@ public class PostingComment {
     @Column(name = "comment_id", nullable = false)
     private Integer commentId;
 
+//    @Column(name = "user_id", nullable = false, length = 50)
+//    private String userId;
+
+//    @Column(name = "post_id", nullable = false)
+//    private Integer postId;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
+    @ToString.Exclude
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "post_id", nullable = false)
+    @JsonBackReference
+    @ToString.Exclude
     private Posting post;
 
     @Lob

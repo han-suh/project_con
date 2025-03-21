@@ -15,6 +15,6 @@ public class PostingLikeId implements java.io.Serializable {
     private String userId;
 
     @Column(name = "post_id", nullable = false)
-    private String postId;
+    private Integer postId;
 
 }
