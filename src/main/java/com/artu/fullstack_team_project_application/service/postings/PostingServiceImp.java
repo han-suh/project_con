@@ -1,15 +1,18 @@
 package com.artu.fullstack_team_project_application.service.postings;
 
 import com.artu.fullstack_team_project_application.entity.postings.Posting;
+import com.artu.fullstack_team_project_application.entity.postings.PostingComment;
 import com.artu.fullstack_team_project_application.entity.postings.PostingImage;
 import com.artu.fullstack_team_project_application.entity.postings.PostingLike;
 import com.artu.fullstack_team_project_application.repository.postings.PostingImageRepository;
 import com.artu.fullstack_team_project_application.repository.postings.PostingRepository;
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,6 +22,7 @@ import java.util.Set;
 public class PostingServiceImp implements PostingService {
     private PostingRepository postingRepository;
     private final PostingImageRepository postingImageRepository;
+    private final EntityManager entityManager;
 
 //    @Override
 //    public Posting save(Posting posting) {
@@ -39,6 +43,43 @@ public class PostingServiceImp implements PostingService {
     public Set<Posting> findByUserId(String userId) {
         return postingRepository.findByUser_UserId(userId);
     }
+
+    // 게시물 등록
+    @Override
+    public void register(Posting posting) {
+        posting.setPostId(posting.getPostId());
+        posting.setUserId(posting.getUserId());
+        posting.setContents(posting.getContents());
+        posting.setLocationTag(posting.getLocationTag());
+        posting.setPersonTagId(posting.getPersonTagId());
+        posting.setVisibilityType(posting.getVisibilityType());
+        // postingRepository.save(posting);
+        return;
+    }
+
+
+
+
+
+/*
+        PostingImage postingImage = new PostingImage();
+        PostingComment postingComment = new PostingComment();
+        posting.setPostId(posting.getPostId());
+        posting.setUserId(posting.getUserId());
+        posting.setContents(posting.getContents());
+        posting.setLocationTag(posting.getLocationTag());
+        posting.setPersonTagId(posting.getPersonTagId());
+        posting.setVisibilityType(posting.getVisibilityType());
+        posting.setCreatedAt(posting.getCreatedAt());
+        posting.setEditAt(posting.getEditAt());
+        posting.setIsUsed(posting.getIsUsed());
+        postingImage.setPost(postingImage.getPost());
+        postingComment.setPost(postingComment.getPost());
+        postingImage.setImgId(postingImage.getImgId());
+        postingImage.setImgUrl(postingImage.getImgUrl());
+        Files entityManager;
+        Posting existPosting = entityManager.find(Posting.class,postId);
+ */
 
 //    @Override
 //    public Set<Posting> findByPostId(Integer postId) {

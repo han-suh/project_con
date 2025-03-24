@@ -19,9 +19,11 @@
         <table id="postTable">
             <thead>
             <tr>
-                <th>contents</th>
-                <th>장소</th>
-                <th>사람</th>
+                <th>이미지</th>
+                <th>내용</th>
+                <th>장소태그</th>
+                <th>사람태그</th>
+                <th>댓글</th>
             </tr>
             </thead>
             <tbody id="postTbody">
@@ -34,6 +36,40 @@
 </body>
 
 <script>
+    const postTbody = document.getElementById("postTbody");
+    const USER_ID='[[${user.userId}]]';  // userId가 문자열이기 때문에 ''로 문자열임을 표시!!!
+    const userPost = async function(){
+        let url = `/posting/${USER_ID}/postpage.do`; // 백틱으로 사용해야 가능
+        let response = await fetch(url);
+        let posts = await response.json();
+        let html = "";
+        console.log(posts)
+        for(let p of posts){
+            console.log(p.contents)
+            console.log(p.locationTag)
+            console.log(p.personTagId)
+            //console.log(p.postingImages)
+            //console.log(p.postingComments)
+                for(let i of p.postingImages){
+                    console.log(i.imgUrl)
+                    for(let c of p.postingComments){
+            html+=`<tr><a href="@{'/postAdd.do'}"><button id="postAddBtn" >게시물 추가</button></a></tr>
+                    <tr>
+                        <td>${i.imgUrl}</td>
+                        <td>${p.contents}</td>
+                        <td>${p.locationTag}</td>
+                        <td>${p.personTagId}</td>
+                        <td>${c.contents}</td>
+                    </tr>`;
+                    console.log(c.contents)
+                    }
+                }
+        }
+        postTbody.innerHTML=html;
+        // let postList = document.getElementById('postList');
+        // postList.innerHTML = posts.map('${postings.contents}').join('');
+    };
+    document.getElementById('postingBtn').addEventListener('click',userPost);
     // const USER_ID=[[${user.userId}]]
     // console.log(USER_ID);
 
@@ -41,14 +77,14 @@
    //  const postTbody=document.getElementById("postTbody");
    //
    //  const postUser=async function(){
-   //      let url=`/posting/${USER_ID}/postpage.do`
+   //      let url=/posting/${USER_ID}/postpage.do
    //      let response = await fetch(url);
    //      let data = await response.json();
    //
    //      console.log(data);
    //      let html = "";
    //      for(let postings of data){
-   //          html+=`            <thead>
+   //          html+=            <thead>
    //  <tr>
    //      <th>contents</th>
    //      <th>장소</th>

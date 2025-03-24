@@ -26,6 +26,9 @@ public interface PostingService {
     // user 게시글
     Set<Posting> findByUserId(String userId);
 
+    // 게시글 등록
+     void register(Posting posting);
+
     // post_Id
     // Set<Posting> findByPostId(Integer postId);
 

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시물 등록 페이지</title>
+</head>
+<body>
+  <h1>게시물 등록</h1>
+  <form name="postRegisterForm" method="post">
+    <p><label>사진 등록<input name="imgUrl" type="text"></label></p>
+    <p><label>문구 추가<input name="contents" value="" type="text"></label></p>
+    <p><label>사람 태그<input name="personTagId" value="" type="text"></label></p>
+    <p><label>위치 추가<input name="locationTag" value="" type="text"></label></p>
+    <p><label for="status">공개 대상</label>
+      <select name="status" id="status">
+        <option value="ALL">모두 공개</option>
+        <option value="FRIENDS">Follow 공개</option>
+        <option value="PRIVATE">비공개</option>
+      </select></p>
+    <p>
+      <button type="reset">초기화</button>
+      <button type="submit">등록</button>
+    </p>
+  </form>
+
+</body>
+
+<!--<script>-->
+<!--  const postRegisterForm = document.forms['postRegisterForm'];-->
+
+<!--  postRegisterForm.addEventListener('submit',async function(e){-->
+<!--    e.preventDefault();-->
+<!--    const formData=Object.fromEntries(new FormData(e.target).entries());-->
+<!--    const URL="/posting/{userId}/postAdd.do";-->
+<!--    const resp=await fetch(URL,{-->
+<!--      method:'POST',-->
+<!--      headers:{'content-type':'application/json'},-->
+<!--      body:JSON.stringify(formData)-->
+<!--    });-->
+<!--    alert(httpStatusMsg[resp.status]);-->
+<!--    if(resp.status===201){-->
+<!--      await loadSalary();-->
+<!--    }-->
+<!--  });-->
+
+
+<!--</script>-->
+
+</html>

@@ -5,13 +5,12 @@ import com.artu.fullstack_team_project_application.entity.postings.UserFollow;
 import com.artu.fullstack_team_project_application.entity.users.user.User;
 import com.artu.fullstack_team_project_application.service.postings.PostingService;
 import com.artu.fullstack_team_project_application.service.users.UserService;
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -83,10 +82,19 @@ public class PostingController {
 
     @GetMapping("/{userId}/postpage.do")
     @ResponseBody
-    public Set<Posting> postpage(
+    public ResponseEntity<Set<Posting>> postpage(
             @PathVariable String userId) {
         Set<Posting> postings = postingService.findByUserId(userId);
-        return postings;
+        // return ResponseEntity.ok(postings);
+        return ResponseEntity.status(201).body(postings);
+    }
+
+    @GetMapping("/{userId}/postAdd.do")
+    // @PostMapping("/{userId}/postAdd.do")
+    @ResponseBody
+    public String postRegister(){
+        // return ResponseEntity.status(201).body(posting);
+        return "posting/postAdd";
     }
 
 
