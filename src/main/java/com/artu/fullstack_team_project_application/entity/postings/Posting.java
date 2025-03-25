@@ -23,6 +23,7 @@ import java.util.Set;
 public class Posting {
     @Id
     @Column(name = "post_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 증가 설정
     private Integer postId;
 
     @Column(name = "user_id", nullable = false, length = 50)

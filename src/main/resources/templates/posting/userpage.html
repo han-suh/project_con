@@ -53,7 +53,7 @@
                 for(let i of p.postingImages){
                     console.log(i.imgUrl)
                     for(let c of p.postingComments){
-            html+=`<tr><a href="@{'/postAdd.do'}"><button id="postAddBtn" >게시물 추가</button></a></tr>
+            html+=`<tr><a href="/posting/${USER_ID}/postAdd.do"><button id="postAddBtn" >게시물 추가</button></a></tr>
                     <tr>
                         <td>${i.imgUrl}</td>
                         <td>${p.contents}</td>

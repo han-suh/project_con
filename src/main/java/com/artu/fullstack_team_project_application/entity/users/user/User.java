@@ -18,6 +18,7 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.springframework.data.repository.query.Param;
 
 import java.time.Instant;
 import java.time.LocalDate;

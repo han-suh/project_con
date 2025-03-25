@@ -15,7 +15,7 @@ public interface PostingService {
 
     @Transactional
     // posting 등록 및 수정
-    // Posting save(Posting posting);
+    Posting save(Posting posting);
 
     // posting 삭제
     // void remove(Posting posting);
@@ -27,7 +27,7 @@ public interface PostingService {
     Set<Posting> findByUserId(String userId);
 
     // 게시글 등록
-     void register(Posting posting);
+    // void register(Posting posting);
 
     // post_Id
     // Set<Posting> findByPostId(Integer postId);

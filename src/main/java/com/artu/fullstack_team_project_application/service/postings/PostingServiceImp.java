@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.Files;
 import java.util.List;
@@ -24,10 +25,20 @@ public class PostingServiceImp implements PostingService {
     private final PostingImageRepository postingImageRepository;
     private final EntityManager entityManager;
 
-//    @Override
-//    public Posting save(Posting posting) {
-//        return postingRepository.save(posting);
-//    }
+    @Override
+    public Posting save(Posting posting) {
+        // 새로운 게시글 생성
+        Posting postingSave = new Posting();
+
+        // postingSave.setUserId(userId); // 보안 강화를 위해 userId는 서버에서 직접 설정
+        // 공통 데이터 설정
+        postingSave.setContents(posting.getContents());
+        postingSave.setLocationTag(posting.getLocationTag());
+        postingSave.setPersonTagId(posting.getPersonTagId());
+        postingSave.setVisibilityType(posting.getVisibilityType());
+
+        return postingRepository.save(postingSave);
+    }
 //
 //    @Override
 //    public void remove(Posting posting) {
@@ -45,17 +56,18 @@ public class PostingServiceImp implements PostingService {
     }
 
     // 게시물 등록
-    @Override
-    public void register(Posting posting) {
-        posting.setPostId(posting.getPostId());
-        posting.setUserId(posting.getUserId());
-        posting.setContents(posting.getContents());
-        posting.setLocationTag(posting.getLocationTag());
-        posting.setPersonTagId(posting.getPersonTagId());
-        posting.setVisibilityType(posting.getVisibilityType());
-        // postingRepository.save(posting);
-        return;
-    }
+//    @Override
+//    public void register(Posting posting) {
+//        posting.setPostId(posting.getPostId());
+//        posting.setUserId(posting.getUserId());
+//        posting.setContents(posting.getContents());
+//        posting.setLocationTag(posting.getLocationTag());
+//        posting.setPersonTagId(posting.getPersonTagId());
+//        posting.setVisibilityType(posting.getVisibilityType());
+//        // postingRepository.save(posting);
+//        return postingRepository.save(posting);
+//    }
+
 
 
 

@@ -86,6 +86,14 @@ public class UserServiceImp implements UserService {
         return userRepository.findById(userId);
     }
 
+    // user 검색
+    @Override
+    public List<User> searchUsers(String word) {
+        String searchTerm = "%" + word + "%"; // LIKE 검색을 위한 % 추가
+        return userRepository.searchUsers(searchTerm);
+    }
+
+
     @Override
     @Transactional(readOnly = true)
     public Set<UserFollow> findByFollowerId(String followerId) {

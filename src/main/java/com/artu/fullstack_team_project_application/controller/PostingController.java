@@ -7,10 +7,13 @@ import com.artu.fullstack_team_project_application.service.postings.PostingServi
 import com.artu.fullstack_team_project_application.service.users.UserService;
 import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,8 @@ import java.util.Set;
 public class PostingController {
     private final PostingService postingService;
     private final UserService userService;
+    //logger 출력할 때 컨트롤러로 출력.
+    private static final Logger logger = LoggerFactory.getLogger(PostingController.class);
 
     @GetMapping("/findAll.do")
     public String findAll(Model model) {
@@ -90,12 +95,37 @@ public class PostingController {
     }
 
     @GetMapping("/{userId}/postAdd.do")
-    // @PostMapping("/{userId}/postAdd.do")
-    @ResponseBody
-    public String postRegister(){
-        // return ResponseEntity.status(201).body(posting);
-        return "posting/postAdd";
+    public String postForm(
+            @ModelAttribute Posting posting,
+            @RequestParam("search") String word,
+            Model model
+    ){
+        // Posting posting = new Posting();
+        // model.addAttribute("posting", posting);
+        // return "posting/postAdd";
+        // postingService.save(posting);
+        List<User> userList = userService.searchUsers(word);
+        model.addAttribute("users", userList);
+        return "/posting/postAdd";
     }
+
+
+
+//    public ResponseEntity<Posting> postAdd(Model model){
+//        Posting emptyPosting = new Posting();
+//        model.addAttribute("posting", emptyPosting);
+//        return "posting/postAdd";
+//    }
+
+//    @PostMapping
+//    public ResponseEntity<Set<Posting>> savePost(
+//            // @AuthenticationPrincipal CustomUserDetails userDetails, // 로그인한 사용자 정보 가져오기
+//            @RequestBody Posting posting
+//    ){
+//        // String userId = userDetails.getUserId(); // 보안 강화: 클라이언트가 직접 ID 전달 X
+//        Posting savedPosting = postingService.save(posting);
+//        return ResponseEntity.ok(savedPosting);
+//    }
 
 
 

@@ -5,6 +5,7 @@ import com.artu.fullstack_team_project_application.entity.users.user.User;
 import com.artu.fullstack_team_project_application.entity.users.user.UserInterest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -40,4 +41,8 @@ public interface UserService {
     Set<UserFollow> findByFolloweeId(String followeeId);
 
     Optional<User> findByUserId(String userId);
+
+    // User 검색
+    List<User> searchUsers(@Param("word") String word);
+
 }
