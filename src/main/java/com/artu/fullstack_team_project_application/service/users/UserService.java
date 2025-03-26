@@ -42,7 +42,7 @@ public interface UserService {
 
     Optional<User> findByUserId(String userId);
 
-    // User 검색
-    List<User> searchUsers(@Param("word") String word);
+    // 이름,메일,아이디로 일치한 사람 찾기
+    List<User> searchUsers(@Param("searchuser") String searchuser);
 
 }

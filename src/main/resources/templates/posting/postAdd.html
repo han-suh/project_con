@@ -9,16 +9,22 @@
   <form name="postRegisterForm" method="post">
     <p><label>사진 등록  </label><input type="file" id="imageUpload" name="image" accept="image/*" required></p>
     <p><label>문구 추가  <input name="contents" value="" type="text"></label></p>
+
     <p>
-      <form action="/user/search.do" method="GET">
-        <label for="search">사람 태그  <input type="text" id="search" name="search" required></label>  <button type="submit">검색</button>
-      </form>
+<!--      <form action="/serch/userserch.do" method="GET">-->
+        <label for="userSearch">사람 태그  <input type="text" id="userSearch" name="usersearch" required></label>
+        <button type="submit">검색</button>
+<!--      </form>-->
     </p>
+<!--    name 속성을 컨트롤러에서 사용하는 파라미터 이름과 일치-->
+
     <p>
-      <form action="/location/search.do" method="GET">
-        <label for="search">위치 추가 <input type="text" id="search" name="search" required></label>  <button type="submit">검색</button>
-      </form>
+<!--      <form action="/location/search.do" method="GET">-->
+        <label for="search">위치 추가 <input type="text" id="search" name="search" required></label>
+        <button type="submit">검색</button>
+<!--      </form>-->
     </p>
+
     <p>
       <label for="status">공개 대상</label>
         <select name="status" id="status">
@@ -27,6 +33,7 @@
           <option value="PRIVATE">비공개</option>
         </select>
     </p>
+
     <p>
       <button type="reset">초기화</button>
       <button type="submit">등록</button>

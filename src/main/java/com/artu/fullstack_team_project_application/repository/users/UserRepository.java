@@ -10,11 +10,15 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
+    // 이름,메일,아이디로 일치한 사람 찾기
     @Query("SELECT u " +
             "FROM User u " +
-            "WHERE u.userName LIKE %:word% " +
-            "OR u.userEmail LIKE %:word% " +
-            "OR u.userId LIKE %:word%")
-    List<User> searchUsers(@Param("word") String word);
-
+            "WHERE (:word IS NULL OR u.userName LIKE %:word%) " +
+            "OR (:word IS NULL OR u.userEmail LIKE %:word%) " +
+            "OR (:word IS NULL OR u.userId LIKE %:word%)")
+      // word가 null인 경우 LIKE 검색이 발생하지 않도록
+    List<User> searchUsers(@Param("searchuser") String searchuser);
 }
+//            "WHERE u.userName LIKE %:word% " +
+//            "OR u.userEmail LIKE %:word% " +
+//            "OR u.userId LIKE %:word%")

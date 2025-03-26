@@ -12,7 +12,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/user")
 @AllArgsConstructor
-public class userController {
+public class UserController {
 
     private final UserService userService;
 

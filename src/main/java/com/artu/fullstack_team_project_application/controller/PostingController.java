@@ -96,16 +96,13 @@ public class PostingController {
 
     @GetMapping("/{userId}/postAdd.do")
     public String postForm(
-            @ModelAttribute Posting posting,
-            @RequestParam("search") String word,
-            Model model
+            @ModelAttribute Posting posting
+            // Model model
     ){
-        // Posting posting = new Posting();
-        // model.addAttribute("posting", posting);
+         // Posting posting = new Posting();
+         // model.addAttribute("posting", posting);
         // return "posting/postAdd";
-        // postingService.save(posting);
-        List<User> userList = userService.searchUsers(word);
-        model.addAttribute("users", userList);
+        //  postingService.save(posting);
         return "/posting/postAdd";
     }
 

@@ -86,10 +86,13 @@ public class UserServiceImp implements UserService {
         return userRepository.findById(userId);
     }
 
-    // user 검색
+    // 이름,메일,아이디로 일치한 사람 찾기
     @Override
-    public List<User> searchUsers(String word) {
-        String searchTerm = "%" + word + "%"; // LIKE 검색을 위한 % 추가
+    public List<User> searchUsers(String searchuser) {
+        if (searchuser == null || searchuser.isEmpty()) {
+            return new ArrayList<>();  // 검색어가 없을 때 빈 리스트 반환
+        }
+        String searchTerm = "%" + searchuser + "%"; // LIKE 검색을 위한 % 추가
         return userRepository.searchUsers(searchTerm);
     }
 
