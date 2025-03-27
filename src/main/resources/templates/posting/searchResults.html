@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>검색 결과</title>
+</head>
+<body>
+<h1>회원 검색 결과</h1>
+<!-- 팝업 창 -->
+<div id="searchPopup" style="display: none;">
+    <input type="text" id="searchInput" placeholder="사용자 검색어 입력">
+    <button type="button" onclick="searchUsers()">검색</button>
+    <ul id="userList">
+        <!-- 검색된 사용자 리스트 -->
+        <table>
+            <thead>
+            <tr>
+                <th>아이디</th>
+                <th>이름</th>
+                <th>이메일</th>
+                <th>생년월일</th>
+                <th>상세</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${userList}">
+                <td th:text="${user.userId}"></td>
+                <td th:text="${user.userName}"></td>
+                <td th:text="${user.userEmail}"></td>
+                <td th:text = "${#temporals.format(user.userBirth, 'yy년 MM월 dd일')}" ></td>
+                <td><a th:href="@{'/user/{userId}/detail.do'(userId=${user.userId})}">상세보기</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </ul>
+    <button type="button" onclick="closeSearchPopup()">닫기</button>
+</div>
+</body>
+<script>
+    // 팝업 열기
+    function openSearchPopup() {
+        document.getElementById("searchPopup").style.display = "block";
+    }
+
+    // 팝업 닫기
+    function closeSearchPopup() {
+        document.getElementById("searchPopup").style.display = "none";
+    }
+
+    // 사용자 검색
+    function searchUsers() {
+        const searchWord = document.getElementById("searchInput").value;
+
+        // 검색어가 비어 있으면 검색하지 않음
+        if (!searchWord.trim()) {
+            alert("검색어를 입력해주세요.");
+            return;
+        }
+
+        // AJAX 요청을 통해 /search/users API 호출
+        fetch(`/search/users?word=${searchWord}`)
+            .then(response => response.json())
+            .then(data => {
+                const userList = document.getElementById("userList");
+                userList.innerHTML = ''; // 기존 목록을 지움
+                data.forEach(user => {
+                    const li = document.createElement("li");
+                    li.textContent = user.name; // 사용자 이름을 표시
+                    userList.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error fetching user data:', error));
+    }
+</script>
+
+</html>

@@ -45,4 +45,7 @@ public interface UserService {
     // 이름,메일,아이디로 일치한 사람 찾기
     List<User> searchUsers(@Param("searchuser") String searchuser);
 
+    // posting 수
+    Map<String, Long> getCountPosting(String userId);
+
 }

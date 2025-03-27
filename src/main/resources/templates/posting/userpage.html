@@ -4,26 +4,48 @@
     <meta charset="UTF-8">
     <title>개인페이지</title>
 </head>
+<style>
+    #postTbody {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    #postTbody tr {
+        display: flex;
+        flex-direction: row;
+        margin: 10px;
+    }
+    #postTbody td {
+        padding: 5px;
+    }
+    #postTbody img {
+        width: 330px;
+        height: auto;
+        margin-right: 10px;
+    }
+</style>
 <body>
 <h1><span th:text="${user.userId}"></span>님의 페이지</h1>
 <p th:text="${user.userName}"></p>
 <p th:text="${user.userEmail}"></p>
+<p>게시물</p>
+<p th:text="${countPostingCount}">게시물 수</p>
 <p><a th:href="@{'/posting/{userId}/follower.do'(userId=${user.userId})}">팔로워</a></p>
-<p th:text="${countFollowerCount}">팔로워 수</p>
+<p th:text="${countFolloweeCount}">팔로워 수</p>
 <p><a th:href="@{'/posting/{userId}/followee.do'(userId=${user.userId})}">팔로우</a></p>
-<p th:text="${countFolloweeCount}">팔로우 수</p>
+<p th:text="${countFollowerCount}">팔로우 수</p>
 
 <div>
     <button id="postingBtn">포스트</button>
     <div>
         <table id="postTable">
+            <a href="/posting/${USER_ID}/postAdd.do"><button id="postAddBtn">게시물 추가</button></a>
             <thead>
             <tr>
                 <th>이미지</th>
-                <th>내용</th>
-                <th>장소태그</th>
-                <th>사람태그</th>
-                <th>댓글</th>
+<!--                <th>내용</th>-->
+<!--                <th>장소태그</th>-->
+<!--                <th>사람태그</th>-->
+<!--                <th>댓글</th>-->
             </tr>
             </thead>
             <tbody id="postTbody">
@@ -43,28 +65,52 @@
         let response = await fetch(url);
         let posts = await response.json();
         let html = "";
-        console.log(posts)
+        // console.log(posts)
+
+        // 이미지를 표시할 때 필요한 변수
+        // let postImageMap = {};
+
         for(let p of posts){
-            console.log(p.contents)
-            console.log(p.locationTag)
-            console.log(p.personTagId)
-            //console.log(p.postingImages)
-            //console.log(p.postingComments)
-                for(let i of p.postingImages){
-                    console.log(i.imgUrl)
-                    for(let c of p.postingComments){
-            html+=`<tr><a href="/posting/${USER_ID}/postAdd.do"><button id="postAddBtn" >게시물 추가</button></a></tr>
+            // console.log(p)
+            console.log(p.postingImages)
+            let firstImageObj = p.postingImages.find(img => img.imgOrder === 0);
+            let firstImage = firstImageObj && firstImageObj.imgUrl;
+            html+=`
                     <tr>
-                        <td>${i.imgUrl}</td>
-                        <td>${p.contents}</td>
-                        <td>${p.locationTag}</td>
-                        <td>${p.personTagId}</td>
-                        <td>${c.contents}</td>
+                        <td>
+                            <img src="${firstImage}" alt="포스팅 대표 이미지" width="330" class="clickable-image" data-post-id="${p.post_id}">
+                        </td>
                     </tr>`;
-                    console.log(c.contents)
-                    }
-                }
+
+            // 이미지를 post_id 별로 저장
+            // postImagesMap[postId] = p.postingImages;
         }
+
+
+
+//         for(let p of posts){
+//             console.log(p.contents)
+//             console.log(p.locationTag)
+//             console.log(p.personTagId)
+//             //console.log(p.postingImages)
+//             //console.log(p.postingComments)
+//                 for(let i of p.postingImages){
+//                     console.log(i.imgUrl)
+//                     for(let c of p.postingComments){
+//             html+=`
+// <!--                    <tr><a href="/posting/${USER_ID}/postAdd.do"><button id="postAddBtn" >게시물 추가</button></a></tr>-->
+//                     <tr>
+// <!--                        <td>${i.imgUrl}</td>-->
+//                         <td><img src="${i.imgUrl}" alt="포스팅 이미지" width="330"></td>
+// <!--                        <td>${p.contents}</td>-->
+// <!--                        <td>${p.locationTag}</td>-->
+// <!--                        <td>${p.personTagId}</td>-->
+// <!--                        <td>${c.contents}</td>-->
+//                     </tr>`;
+//                     console.log(c.contents)
+//                     }
+//                 }
+//         }
         postTbody.innerHTML=html;
         // let postList = document.getElementById('postList');
         // postList.innerHTML = posts.map('${postings.contents}').join('');
@@ -99,6 +145,7 @@
    //  }
    //
    // postingBtn.addEventListener("click",postUser)
+
 </script>
 
 </html>

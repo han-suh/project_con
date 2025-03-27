@@ -5,9 +5,38 @@
     <title>Followee</title>
 </head>
 <body>
-<h1><span th:text="${user.userName}">님의 Followee</h1>
-<p th:text="${user.followers[0].followees.userName}"></p>
-<p th:text="${user.followers[0].followees.userEmail}"></p>
+<h1><span th:text="${user.userName}"></span>님의 Followee</h1>
+<!--<tr th:each="user : ${users}">-->
+<!--    <td th:text="${user.userId}"></td>-->
+<!--    <td th:text="${user.userName}"></td>-->
+<!--    <td th:text="${user.userEmail}"></td>-->
+<!--    <td><a th:href="@{'/posting/{userId}/userpage.do'(userId=${user.userId})}">개인페이지</a></td>-->
+<!--<div th:each="u : ${user}">-->
+<!--<div th:text="${user.followers[0].followees}"></div>-->
+<!--<div th:text="${user.followers}"></div>-->
+<!--<div th:each="followee : ${user.followers[0].followees}"></div>-->
+<!--<div th:text="followee.userName"></div>-->
+
+<!--<div th:each="follower : ${user.followers}" th:text="${user.followees}"></div>-->
+<!--<p th:text="${follower}"></p>-->
+
+<!-- followees 목록을 반복하면서 출력 -->
+<div th:each="follower : ${user.followers}">
+    <p th:text="${follower.followees.userName}" ></p> <!-- followee의 이름을 출력 -->
+    <p th:text="${follower.followees.userEmail}"></p>
+    <button type="button">팔로우</button>
+
+    <!-- 각 followee의 followers를 반복 -->
+<!--    <div th:each="follower : ${followee.followers}">-->
+<!--        <p th:text="${follower.userName}"></p> &lt;!&ndash; follower의 이름을 출력 &ndash;&gt;-->
+<!--        <p th:text="${follower.userEmail}"></p> &lt;!&ndash; follower의 이메일을 출력 &ndash;&gt;-->
+<!--    </div>-->
+</div>
+
+
+
+<!--<p th:text="${user.followers[0].followees.userName}"></p>-->
+<!--<p th:text="${user.followers[0].followees.userEmail}"></p>-->
 
 </body>
 </html>

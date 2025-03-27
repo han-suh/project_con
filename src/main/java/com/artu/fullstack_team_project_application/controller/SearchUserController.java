@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping("/serch")
+@RequestMapping("/search")
 @AllArgsConstructor
 public class SearchUserController {
     private final UserService userService;
 
     // 이름,메일,아이디로 일치한 사람 찾기
-    @GetMapping("/userserch.do")
+    @GetMapping("/usersearch.do")
     public String postForm(
             @RequestParam(required = false) String usersearch,  // 파라미터가 없을 경우 null 처리
             Model model
@@ -29,7 +29,7 @@ public class SearchUserController {
         }
         List<User> userList = userService.searchUsers(usersearch); // 검색어를 전달하여 검색
         model.addAttribute("users", userList);
-        return "/serch/userserch";
+        return "/search/usersearch";
     }
 
 }

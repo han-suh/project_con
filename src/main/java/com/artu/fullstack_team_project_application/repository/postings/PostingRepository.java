@@ -3,6 +3,8 @@ package com.artu.fullstack_team_project_application.repository.postings;
 import com.artu.fullstack_team_project_application.entity.postings.Posting;
 import com.artu.fullstack_team_project_application.entity.users.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,4 +26,18 @@ public interface PostingRepository extends JpaRepository<Posting, Integer> {
 
     // 사람 태그
     // List<Posting> findByPersonTagId(String personTagId);
+
+    // posting 수
+//    @Query("SELECT COUNT(uf.followeeId) " +
+//            "FROM User u LEFT JOIN UserFollow uf " +
+//            "ON u.userId = uf.followerId " +
+//            "WHERE u.userId = :followerId " +
+//            "GROUP BY u.userId")
+//    Long countpostingByUserId(@Param("followerId") String followerId);
+
+    @Query("SELECT COUNT(p.postId) " +
+            "FROM User u LEFT JOIN Posting p " +
+            "ON u.userId = p.userId " +
+            "WHERE u.userId = :userId")
+    Long countpostingByUserId(@Param("userId") String userId);
 }

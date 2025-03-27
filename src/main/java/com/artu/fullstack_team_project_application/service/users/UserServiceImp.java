@@ -3,6 +3,7 @@ package com.artu.fullstack_team_project_application.service.users;
 import com.artu.fullstack_team_project_application.entity.postings.UserFollow;
 import com.artu.fullstack_team_project_application.entity.users.user.User;
 import com.artu.fullstack_team_project_application.entity.users.user.UserInterest;
+import com.artu.fullstack_team_project_application.repository.postings.PostingRepository;
 import com.artu.fullstack_team_project_application.repository.postings.UserFollowRepository;
 import com.artu.fullstack_team_project_application.repository.users.UserRepository;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
     private final UserFollowRepository userFollowRepository;
+    private final PostingRepository postingRepository;
 
     @Override
     public Page<User> readAll(Pageable pageable) {
@@ -74,6 +76,14 @@ public class UserServiceImp implements UserService {
         Map<String, Long> countFolloweeMap = new HashMap<>();
         countFolloweeMap.put("countFollowee", countFollowee);
         return countFolloweeMap;
+    }
+
+    @Override
+    public Map<String, Long> getCountPosting(String userId) {
+        Long countPosting = postingRepository.countpostingByUserId(userId);
+        Map<String, Long> countPostingMap = new HashMap<>();
+        countPostingMap.put("countPosting", countPosting);
+        return countPostingMap;
     }
 
     @Override

@@ -4,43 +4,170 @@
     <meta charset="UTF-8">
     <title>게시물 등록 페이지</title>
 </head>
+<style>
+    #searchPopup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 500px;
+        height: 500px;
+        background: #efdcff;
+        padding: 20px;
+        border: 1px solid grey;
+        border-radius: 10%;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    #searchPopup button {
+        margin-top: 10px;
+        position: absolute;
+        top: 25px;
+        right: 40px;
+    }
+</style>
 <body>
   <h1>게시물 등록</h1>
-  <form name="postRegisterForm" method="post">
-    <p><label>사진 등록  </label><input type="file" id="imageUpload" name="image" accept="image/*" required></p>
-    <p><label>문구 추가  <input name="contents" value="" type="text"></label></p>
 
+  <form name="postRegisterForm" method="post">
+<!-- 파일 탐색기를 통해서 이미지만 업로드 가능 / 여러 개 등록 가능 -->
+    <p>
+        <label>사진 등록</label>
+        <input type="file" id="imageUpload" name="image" accept="image/*" multiple> <!-- required> -->
+    </p>
+    <p>
+        <label>문구 추가</label>
+        <input name="contents" value="" type="text">
+    </p>
     <p>
 <!--      <form action="/serch/userserch.do" method="GET">-->
-        <label for="userSearch">사람 태그  <input type="text" id="userSearch" name="usersearch" required></label>
-        <button type="submit">검색</button>
+        <label for="userSearch">사람 태그</label>
+        <input type="text" id="userSearch" name="usersearch">
+        <button type="button" onclick="searchUsers(event)">검색</button>
+<!--  전체 form의 submit 제출을 막기 위해서 type을 button으로 변경   -->
 <!--      </form>-->
     </p>
+      <!-- 검색 결과 팝업 -->
+      <div id="searchPopup">
+          <p>검색 결과</p>
+          <button type="button" onclick="closeSearchPopup()">닫기</button>
+          <ul id="userList">
+              <!-- 검색된 사용자 리스트 -->
+              <table>
+                  <thead>
+                  <tr>
+                      <th>아이디</th>
+                      <th>이름</th>
+                      <th>이메일</th>
+                      <th>생년월일</th>
+                      <th>상세</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr th:each="user : ${userList}">
+                      <td th:text="${user.userId}"></td>
+                      <td th:text="${user.userName}"></td>
+                      <td th:text="${user.userEmail}"></td>
+                      <td th:text = "${#temporals.format(user.userBirth, 'yy년 MM월 dd일')}" ></td>
+                      <td><a th:href="@{'/user/{userId}/detail.do'(userId=${user.userId})}">상세보기</a></td>
+                  </tr>
+                  </tbody>
+              </table>
+          </ul>
+    </div>
 <!--    name 속성을 컨트롤러에서 사용하는 파라미터 이름과 일치-->
 
     <p>
 <!--      <form action="/location/search.do" method="GET">-->
-        <label for="search">위치 추가 <input type="text" id="search" name="search" required></label>
-        <button type="submit">검색</button>
+        <label for="search">위치 추가</label>
+        <input type="text" id="search" name="search">
+        <button type="button">검색</button>
 <!--      </form>-->
     </p>
-
     <p>
-      <label for="status">공개 대상</label>
+        <label for="status">공개 대상</label>
         <select name="status" id="status">
           <option value="ALL">모두 공개</option>
           <option value="FRIENDS">Follow 공개</option>
           <option value="PRIVATE">비공개</option>
         </select>
     </p>
-
     <p>
       <button type="reset">초기화</button>
       <button type="submit">등록</button>
     </p>
   </form>
 
+
 </body>
+<script>
+    const imageUpload = document.getElementById("imageUpload");
+
+    // 이미지 업로드 개수 제한
+    imageUpload.addEventListener('change', function(event) {
+        if (this.files.length > 5) {
+            //alert("최대 5개의 이미지만 업로드할 수 있습니다!");
+            this.value = ""; // 선택된 파일 초기화
+        }
+    });
+
+    function searchUsers(event) {
+        event.preventDefault(); // 폼 제출 방지
+        let popup = document.getElementById("searchPopup");
+        popup.style.display = "block"; // 팝업 보이기
+    }
+
+    function closeSearchPopup() {
+        let popup = document.getElementById("searchPopup");
+        popup.style.display = "none"; // 팝업 숨기기
+    }
+
+    function checkForm() {
+        let image = document.getElementById("imageUpload").files.length > 0;
+        let contents = document.querySelector("input[name='contents']").value.trim() !== "";
+        let search = document.querySelector("input[name='search']").value.trim() !== "";
+
+        let submitButton = document.querySelector("#submitButton");
+        submitButton.disabled = !(image && contents && search);
+    }
+
+
+    // // 팝업 열기
+    // function openSearchPopup() {
+    //     document.getElementById("searchPopup").style.display = "block";
+    // }
+    //
+    // // 팝업 닫기
+    // function closeSearchPopup() {
+    //     document.getElementById("searchPopup").style.display = "none";
+    // }
+    //
+    // // 사용자 검색
+    // function searchUsers() {
+    //     const searchWord = document.getElementById("searchInput").value;
+    //
+    //     // 검색어가 비어 있으면 검색하지 않음
+    //     if (!searchWord.trim()) {
+    //         alert("검색어를 입력해주세요.");
+    //         return;
+    //     }
+    //
+    //     // AJAX 요청을 통해 /search/users API 호출
+    //     fetch(`/search/users?word=${searchWord}`)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             const userList = document.getElementById("userList");
+    //             userList.innerHTML = ''; // 기존 목록을 지움
+    //             data.forEach(user => {
+    //                 const li = document.createElement("li");
+    //                 li.textContent = user.name; // 사용자 이름을 표시
+    //                 userList.appendChild(li);
+    //             });
+    //         })
+    //         .catch(error => console.error('Error fetching user data:', error));
+    // }
+</script>
 
 <!--<script>-->
 <!--  const postRegisterForm = document.forms['postRegisterForm'];-->
