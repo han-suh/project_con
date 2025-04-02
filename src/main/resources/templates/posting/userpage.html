@@ -78,9 +78,16 @@
             html+=`
                     <tr>
                         <td>
-                            <img src="${firstImage}" alt="포스팅 대표 이미지" width="330" class="clickable-image" data-post-id="${p.post_id}">
+                            <img src="${firstImage}" alt="포스팅 대표 이미지" width="330">
                         </td>
                     </tr>`;
+
+            // html+=`
+            //         <tr>
+            //             <td>
+            //                 <img src="${firstImage}" alt="포스팅 대표 이미지" width="330" class="clickable-image" data-post-id="${p.post_id}">
+            //             </td>
+            //         </tr>`;
 
             // 이미지를 post_id 별로 저장
             // postImagesMap[postId] = p.postingImages;
