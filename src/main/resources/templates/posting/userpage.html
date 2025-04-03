@@ -25,6 +25,9 @@
 </style>
 <body>
 <h1><span th:text="${user.userId}"></span>님의 페이지</h1>
+<p th:each=" img : ${userImg}">
+    <img th:src="${img.prfImgUrl}" alt="프로필 사진" width="100" style="border-radius: 50%; object-fit: cover;">
+</p>
 <p th:text="${user.userName}"></p>
 <p th:text="${user.userEmail}"></p>
 <p>게시물</p>
@@ -34,11 +37,17 @@
 <p><a th:href="@{'/posting/{userId}/followee.do'(userId=${user.userId})}">팔로우</a></p>
 <p th:text="${countFollowerCount}">팔로우 수</p>
 
+<form action="/search/users.do" method="GET">
+    <label for="searchUser">사람 태그</label>
+    <input type="text" id="searchUser" name="searchUser" required>
+    <button type="submit" id="searchUserBtn">검색</button>
+</form>
+
 <div>
     <button id="postingBtn">포스트</button>
     <div>
         <table id="postTable">
-            <a href="/posting/${USER_ID}/postAdd.do"><button id="postAddBtn">게시물 추가</button></a>
+            <a th:href="@{'/posting/{userId}/postAdd.do'(userId=${user.userId})}"><button id="postAddBtn">게시물 추가</button></a>
             <thead>
             <tr>
                 <th>이미지</th>

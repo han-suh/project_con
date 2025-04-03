@@ -2,6 +2,7 @@ package com.artu.fullstack_team_project_application.service.users;
 
 import com.artu.fullstack_team_project_application.entity.postings.UserFollow;
 import com.artu.fullstack_team_project_application.entity.users.user.User;
+import com.artu.fullstack_team_project_application.entity.users.user.UserImg;
 import com.artu.fullstack_team_project_application.entity.users.user.UserInterest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -47,5 +48,7 @@ public interface UserService {
 
     // posting 수
     Map<String, Long> getCountPosting(String userId);
+
+    Set<UserImg> findUserImgByUserId(String userId);
 
 }

@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시물 등록 페이지</title>
+</head>
+<style>
+    #searchPopup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 500px;
+        height: 500px;
+        background: #f0f0f0;
+        padding: 20px;
+        border: 1px solid grey;
+        border-radius: 10%;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    #popupCloseBtn {
+        margin-top: 10px;
+        position: absolute;
+        top: 25px;
+        right: 40px;
+    }
+
+    #popupSearchBtn {
+        margin-top: 10px;
+        position: absolute;
+        top: 63px;
+        right: 120px;
+    }
+
+    /* 팝업 스타일 */
+    #popupContainer {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 450px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        z-index: 1000;
+    }
+
+    #suggestions {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        max-height: 250px;
+        overflow-y: auto;
+        margin-top: 10px;
+    }
+
+    .popup-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .popup-header strong {
+        font-size: 18px;
+    }
+
+    .close-btn {
+        cursor: pointer;
+        font-size: 22px;
+    }
+
+    #popupSearchInput {
+        width: 90%;
+        padding: 15px;
+        font-size: 18px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        outline: none;
+    }
+
+    .suggestion-item {
+        padding: 12px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .suggestion-item:hover {
+        background: #f0f0f0;
+    }
+
+    /*#searchLocation, #contents, #searchUser  {*/
+    /*    width: 300px;*/
+    /*    padding: 10px;*/
+    /*    font-size: 16px;*/
+    /*    border: 1px solid #ccc;*/
+    /*    border-radius: 5px;*/
+    /*    outline: none;*/
+    /*}*/
+
+    /*button {*/
+    /*    padding: 10px 15px;*/
+    /*    font-size: 16px;*/
+    /*    border: none;*/
+    /*    background-color: #007bff;*/
+    /*    color: white;*/
+    /*    cursor: pointer;*/
+    /*    border-radius: 5px;*/
+    /*    margin-left: 10px;*/
+    /*}*/
+
+    /*button:hover {*/
+    /*    background-color: #0056b3;*/
+    /*}*/
+</style>
+<body>
+<h1>게시물 등록</h1>
+
+<form name="postRegisterForm" method="post">
+    <!-- 파일 탐색기를 통해서 이미지만 업로드 가능 / 여러 개 등록 가능 -->
+    <p>
+        <label>사진 등록</label>
+        <input type="file" id="imageUpload" name="image" accept="image/*" multiple> <!-- required> -->
+    </p>
+    <p>
+        <label>문구 추가</label>
+        <input name="contents" id="contents" value="" type="text">
+    </p>
+    <p>
+        <!--      <form action="/serch/userserch.do" method="GET">-->
+        <!--        <label for="searchUser">사람 태그</label>-->
+        <!--        <input type="text" id="searchUser" name="searchUser">-->
+        <!--        <button type="button" onclick="searchUsers(event)">검색</button>-->
+        <!--  전체 form의 submit 제출을 막기 위해서 type을 button으로 변경   -->
+        <!--      </form>-->
+        <!--      <form action="/search/usersearch.do" method="GET">-->
+        <!--          <label for="searchUser">사람 태그</label>-->
+        <!--          <input type="text" id="searchUser" name="searchUser" required>-->
+        <!--          <button type="button" id="searchUserBtn" onclick={searchUsers}>검색</button>-->
+        <!--      </form>-->
+    </p>
+    <!-- 검색 결과 팝업 -->
+    <!--      <div id="searchPopup">-->
+    <!--          <div>-->
+    <!--              <p>사람 태그</p>-->
+    <!--              <button type="button" id="popupCloseBtn" onclick="closeSearchPopup()">닫기</button>-->
+    <!--          </div>-->
+    <!--          <div>-->
+    <!--              <input type="text" id="searchInput" placeholder="이름 또는 이메일 검색" autocomplete="off">-->
+    <!--              <button type="button" id="popupSearchBtn" onclick="popupSearchUsers()">검색</button>-->
+    <!--          </div>-->
+    <!--          <ul id="userList">-->
+    <!--              &lt;!&ndash; 검색된 사용자 리스트 &ndash;&gt;-->
+    <!--              <table>-->
+    <!--                  <thead>-->
+    <!--                  <tr>-->
+    <!--                      <th>아이디</th>-->
+    <!--                      <th>이름</th>-->
+    <!--                      <th>이메일</th>-->
+    <!--                      <th>생년월일</th>-->
+    <!--                      <th>상세</th>-->
+    <!--                  </tr>-->
+    <!--                  </thead>-->
+    <!--                  <tbody>-->
+    <!--                  <tr th:each="user : ${userList}">-->
+    <!--                      <td th:text="${user.userId}"></td>-->
+    <!--                      <td th:text="${user.userName}"></td>-->
+    <!--                      <td th:text="${user.userEmail}"></td>-->
+    <!--                      <td th:text = "${#temporals.format(user.userBirth, 'yy년 MM월 dd일')}" ></td>-->
+    <!--                      <td><a th:href="@{'/user/{userId}/detail.do'(userId=${user.userId})}">상세보기</a></td>-->
+    <!--                  </tr>-->
+    <!--                  </tbody>-->
+    <!--              </table>-->
+    <!--          </ul>-->
+    <!--    </div>-->
+    <!--    name 속성을 컨트롤러에서 사용하는 파라미터 이름과 일치-->
+
+    <p>
+        <!--      <form action="/location/search.do" method="GET">-->
+        <label for="searchLocation">위치 추가</label>
+        <input type="text" id="searchLocation" name="searchLocation" placeholder="장소 또는 주소 검색" onkeyup="syncInput(event)">
+        <button type="button" onclick="openPopup()">검색</button>
+        <!--      </form>-->
+    </p>
+    <!-- 팝업 창 -->
+    <div id="popupContainer">
+        <div class="popup-header">
+            <!--              <strong>위치 추가</strong>-->
+            <span class="close-btn" onclick="closePopup()">✖</span>
+        </div>
+        <input type="text" id="popupSearchInput" placeholder="장소 또는 주소 검색" onkeyup="searchPlace()" autocomplete="off">
+        <div id="suggestions"></div>
+    </div>
+
+    <p>
+        <label for="status">공개 대상</label>
+        <select name="status" id="status">
+            <option value="ALL">모두 공개</option>
+            <option value="FRIENDS">Follow 공개</option>
+            <option value="PRIVATE">비공개</option>
+        </select>
+    </p>
+    <p>
+        <button type="reset">초기화</button>
+        <button type="submit">등록</button>
+    </p>
+</form>
+
+
+</body>
+
+<!--<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>-->
+<script>
+    const API_KEY = "8c4ae12488a9b1b01cf31e0789bb1a71";
+
+    // // 카카오 API 키 입력
+    // function openPopup() {
+    //     let popup = document.getElementById("popupContainer");
+    //     let searchInput = document.getElementById("searchLocation").value.trim();
+    //     let popupSearchInput = document.getElementById("popupSearchInput");
+    //
+    //     popup.style.display = "block"; // 팝업 열기
+    //     popupSearchInput.value = searchInput; // input 값 반영
+    //     searchPlace(); // 자동 검색 실행
+    // }
+    //
+    // function closePopup() {
+    //     let popup = document.getElementById("popupContainer");
+    //     popup.style.display = "none"; // 팝업 닫기
+    // }
+
+    function openPopup() {
+        let searchInput = document.getElementById("searchLocation").value.trim();
+        let query = document.getElementById("searchLocation").value.trim();
+        let resultList = document.getElementById("suggestions");
+
+        if (query.length < 2) {
+            resultList.style.display = "none";
+            return;
+        }
+
+        // 검색 결과 초기화 (중복 방지)
+        resultList.innerHTML = "";
+
+        // 1. 장소(POI) 검색
+        fetch(`https://dapi.kakao.com/v2/local/search/keyword.json?query=${query}`, {
+            headers: { "Authorization": `KakaoAK ${API_KEY}` }
+        })
+            .then(response => response.json())
+            .then(data => {
+                data.documents.forEach(place => {
+                    let placeName = place.place_name;
+                    let fullAddress = place.road_address_name || place.address_name;
+
+                    let item = document.createElement("div");
+                    item.innerHTML = `<strong>${placeName}</strong><br><small>${fullAddress}</small>`;
+                    item.style.padding = "8px";
+                    item.style.cursor = "pointer";
+                    item.onclick = function() {
+                        document.getElementById("searchLocation").value = placeName; // 장소 이름만 입력
+                        resultList.style.display = "none";
+                    };
+                    resultList.appendChild(item);
+                });
+
+                if (resultList.innerHTML !== "") resultList.style.display = "block";
+            })
+            .catch(error => console.error("장소 검색 오류:", error));
+
+        // 2. 도로명 주소 검색 추가
+        fetch(`https://dapi.kakao.com/v2/local/search/address.json?query=${query}`, {
+            headers: { "Authorization": `KakaoAK ${API_KEY}` }
+        })
+            .then(response => response.json())
+            .then(data => {
+                data.documents.forEach(address => {
+                    let roadAddr = address.road_address ? address.road_address.road_name : null;
+                    let fullAddr = address.road_address ? address.road_address.address_name : null;
+
+                    if (roadAddr && fullAddr) {
+                        let item = document.createElement("div");
+                        item.innerHTML = `<strong>${roadAddr}</strong><br><small>${fullAddr}</small>`;
+                        item.style.padding = "8px";
+                        item.style.cursor = "pointer";
+                        item.onclick = function() {
+                            document.getElementById("searchLocation").value = roadAddr; // 도로명만 입력
+                            resultList.style.display = "none";
+                        };
+                        resultList.appendChild(item);
+                    }
+                });
+
+                if (resultList.innerHTML !== "") resultList.style.display = "block";
+            })
+            .catch(error => console.error("주소 검색 오류:", error));
+
+        // function searchPlace() {
+        //     let query = document.getElementById("popupSearchInput").value.trim();
+        //     let resultList = document.getElementById("suggestions");
+        //
+        //     if (query.length < 2) {
+        //         resultList.style.display = "none";
+        //         return;
+        //     }
+        // fetch(`https://dapi.kakao.com/v2/local/search/address.json?query=${encodeURIComponent(query)}`, {
+        //     headers: { "Authorization": `KakaoAK ${API_KEY}` }
+        // })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         resultList.innerHTML = "";
+        //
+        //         if (data.documents.length === 0) {
+        //             resultList.style.display = "none";
+        //             return;
+        //         }
+        //
+        //         data.documents.forEach(place => {
+        //             let simpleAddr = place.road_address ? place.road_address.road_name : place.address.region_3depth_name;
+        //             let fullAddr = place.road_address ? place.road_address.address_name : place.address.address_name;
+        //
+        //             let addresses = new Set([simpleAddr, fullAddr]);
+        //
+        //             addresses.forEach(addr => {
+        //                 if (addr) {
+        //                     let item = document.createElement("div");
+        //                     item.textContent = addr;
+        //                     item.classList.add("suggestion-item");
+        //                     item.onclick = function() {
+        //                         document.getElementById("searchLocation").value = addr; // 선택한 주소 적용
+        //                         closePopup(); // 팝업 닫기
+        //                     };
+        //                     resultList.appendChild(item);
+        //                 }
+        //             });
+        //         });
+        //
+        //         resultList.style.display = "block";
+        //     })
+        //     .catch(error => console.error("API 요청 실패:", error));
+
+
+        // function execDaumPostcode() {
+        // // 사용자 검색어 입력 바로 검색 및 공백 제거
+        // const userInput = document.getElementById("searchLocation").value.trim();
+        // new daum.Postcode({
+        //     oncomplete: function(data) {
+        //         // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+        //
+        //         // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+        //         // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+        //         var addr = ''; // 주소 변수
+        //         var extraAddr = ''; // 참고항목 변수
+        //
+        //         //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+        //         if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+        //             addr = data.roadAddress;
+        //         } else { // 사용자가 지번 주소를 선택했을 경우(J)
+        //             addr = data.jibunAddress;
+        //         }
+        //
+        //         // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+        //         if(data.userSelectedType === 'R'){
+        //             // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+        //             // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+        //             if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+        //                 extraAddr += data.bname;
+        //             }
+        //             // 건물명이 있고, 공동주택일 경우 추가한다.
+        //             if(data.buildingName !== '' && data.apartment === 'Y'){
+        //                 extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+        //             }
+        //             // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+        //             if(extraAddr !== ''){
+        //                 extraAddr = ' (' + extraAddr + ')';
+        //             }
+        //             // 조합된 참고항목을 해당 필드에 넣는다.
+        //             document.getElementById("extraAddress").value = extraAddr;
+        //
+        //         } else {
+        //             document.getElementById("extraAddress").value = '';
+        //         }
+        //
+        //         addr = (data.userSelectedType === 'R') ? data.roadAddress : data.jibunAddress;
+        //         document.getElementById("searchLocation").value = addr;
+        //
+        //         // 우편번호와 주소 정보를 해당 필드에 넣는다.
+        //         document.getElementById('postcode').value = data.zonecode;
+        //         document.getElementById("address").value = addr;
+        //         // 커서를 상세주소 필드로 이동한다.
+        //         document.getElementById("detailAddress").focus();
+        //     }
+        // }).open({q:userInput});
+
+        // onclose: function(state) {
+        //     //state는 우편번호 찾기 화면이 어떻게 닫혔는지에 대한 상태 변수 이며, 상세 설명은 아래 목록에서 확인하실 수 있습니다.
+        //     if(state === 'FORCE_CLOSE'){
+        //         //사용자가 브라우저 닫기 버튼을 통해 팝업창을 닫았을 경우, 실행될 코드를 작성하는 부분입니다.
+        //
+        //     } else if(state === 'COMPLETE_CLOSE'){
+        //         //사용자가 검색결과를 선택하여 팝업창이 닫혔을 경우, 실행될 코드를 작성하는 부분입니다.
+        //         //oncomplete 콜백 함수가 실행 완료된 후에 실행됩니다.
+        //     }
+        // }
+    }
+</script>
+
+<script>
+    const imageUpload = document.getElementById("imageUpload");
+    const searchUserBtn = document.getElementById("searchUserBtn");
+    const searchUser = document.getElementById("searchUser");
+
+    // 이미지 업로드 개수 제한
+    imageUpload.addEventListener('change', function(event) {
+        if (this.files.length > 5) {
+            //alert("최대 5개의 이미지만 업로드할 수 있습니다!");
+            this.value = ""; // 선택된 파일 초기화
+        }
+    });
+
+    // const postTbody = document.getElementById("postTbody");
+    // const USER_ID='[[${user.userId}]]';  // userId가 문자열이기 때문에 ''로 문자열임을 표시!!!
+    // const userPost = async function(){
+    //     let url = `/posting/${USER_ID}/postpage.do`; // 백틱으로 사용해야 가능
+    //     let response = await fetch(url);
+    //     let posts = await response.json();
+    //     let html = "";
+    //
+
+    searchUserBtn.addEventListener("click", function (){
+        const postSearch = searchUser.value;
+
+    });
+
+
+
+
+
+    // function searchUserBtn(event){
+    //     let searchUser = document.getElementById("searchUserBtn");
+    //     searchUser.event
+    // }
+
+    // function searchUsers(event) {
+    //     event.preventDefault(); // 폼 제출 방지
+    //     let popup = document.getElementById("searchPopup");
+    //     popup.style.display = "block"; // 팝업 보이기
+    // }
+    //
+    // function closeSearchPopup() {
+    //     let popup = document.getElementById("searchPopup");
+    //     popup.style.display = "none"; // 팝업 숨기기
+    // }
+    //
+    // function popupSearchUsers() {
+    //     const searchWord = document.getElementById("searchInput").value.trim();
+    //     let userSearch = document.getElementById("");
+    //     userSearch
+    //
+    // }
+
+    // function checkForm() {
+    //     let image = document.getElementById("imageUpload").files.length > 0;
+    //     let contents = document.querySelector("input[name='contents']").value.trim() !== "";
+    //     let search = document.querySelector("input[name='search']").value.trim() !== "";
+    //
+    //     let submitButton = document.querySelector("#submitButton");
+    //     submitButton.disabled = !(image && contents && search);
+    // }
+
+
+    // // 팝업 열기
+    // function openSearchPopup() {
+    //     document.getElementById("searchPopup").style.display = "block";
+    // }
+    //
+    // // 팝업 닫기
+    // function closeSearchPopup() {
+    //     document.getElementById("searchPopup").style.display = "none";
+    // }
+    //
+    // // 사용자 검색
+    // function searchUsers() {
+    //     const searchWord = document.getElementById("searchInput").value.trim();
+    //
+    //     // 검색어가 비어 있으면 검색하지 않음
+    //     if (!searchWord.trim()) {
+    //         alert("검색어를 입력해주세요.");
+    //         return;
+    //     }
+    //
+    //     // AJAX 요청을 통해 /search/users API 호출
+    //     fetch(`/search/users?word=${searchWord}`)
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             const userList = document.getElementById("userList");
+    //             userList.innerHTML = ''; // 기존 목록을 지움
+    //             data.forEach(user => {
+    //                 const li = document.createElement("li");
+    //                 li.textContent = user.name; // 사용자 이름을 표시
+    //                 userList.appendChild(li);
+    //             });
+    //         })
+    //         .catch(error => console.error('Error fetching user data:', error));
+    // }
+</script>
+
+<!--<script>-->
+<!--  const postRegisterForm = document.forms['postRegisterForm'];-->
+
+<!--  postRegisterForm.addEventListener('submit',async function(e){-->
+<!--    e.preventDefault();-->
+<!--    const formData=Object.fromEntries(new FormData(e.target).entries());-->
+<!--    const URL="/posting/{userId}/postAdd.do";-->
+<!--    const resp=await fetch(URL,{-->
+<!--      method:'POST',-->
+<!--      headers:{'content-type':'application/json'},-->
+<!--      body:JSON.stringify(formData)-->
+<!--    });-->
+<!--    alert(httpStatusMsg[resp.status]);-->
+<!--    if(resp.status===201){-->
+<!--      await loadSalary();-->
+<!--    }-->
+<!--  });-->
+
+
+<!--</script>-->
+
+</html>

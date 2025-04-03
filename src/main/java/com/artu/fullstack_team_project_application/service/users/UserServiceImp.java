@@ -2,9 +2,11 @@ package com.artu.fullstack_team_project_application.service.users;
 
 import com.artu.fullstack_team_project_application.entity.postings.UserFollow;
 import com.artu.fullstack_team_project_application.entity.users.user.User;
+import com.artu.fullstack_team_project_application.entity.users.user.UserImg;
 import com.artu.fullstack_team_project_application.entity.users.user.UserInterest;
 import com.artu.fullstack_team_project_application.repository.postings.PostingRepository;
 import com.artu.fullstack_team_project_application.repository.postings.UserFollowRepository;
+import com.artu.fullstack_team_project_application.repository.users.UserImageRepository;
 import com.artu.fullstack_team_project_application.repository.users.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,7 @@ public class UserServiceImp implements UserService {
     private final UserRepository userRepository;
     private final UserFollowRepository userFollowRepository;
     private final PostingRepository postingRepository;
+    private final UserImageRepository userImageRepository;
 
     @Override
     public Page<User> readAll(Pageable pageable) {
@@ -87,6 +90,11 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public Set<UserImg> findUserImgByUserId(String userId) {
+        return userImageRepository.findUserImgByUser_UserId(userId);
+    }
+
+    @Override
     public List<User> findAll() {
         return userRepository.findAll();
     }
@@ -102,8 +110,8 @@ public class UserServiceImp implements UserService {
         if (searchuser == null || searchuser.isEmpty()) {
             return new ArrayList<>();  // 검색어가 없을 때 빈 리스트 반환
         }
-        String searchTerm = "%" + searchuser + "%"; // LIKE 검색을 위한 % 추가
-        return userRepository.searchUsers(searchTerm);
+//        String searchTerm = "%" + searchuser + "%"; // LIKE 검색을 위한 % 추가
+        return userRepository.searchUsers(searchuser);
     }
 
 

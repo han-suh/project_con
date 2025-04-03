@@ -3,6 +3,7 @@ package com.artu.fullstack_team_project_application.controller;
 import com.artu.fullstack_team_project_application.entity.postings.Posting;
 import com.artu.fullstack_team_project_application.entity.postings.UserFollow;
 import com.artu.fullstack_team_project_application.entity.users.user.User;
+import com.artu.fullstack_team_project_application.entity.users.user.UserImg;
 import com.artu.fullstack_team_project_application.service.postings.PostingService;
 import com.artu.fullstack_team_project_application.service.users.UserService;
 import jakarta.persistence.EntityManager;
@@ -68,6 +69,10 @@ public class PostingController {
         Long countPostingCount = countPostingMap.get("countPosting");
         model.addAttribute("countPostingMap", countPostingMap);
         model.addAttribute("countPostingCount", countPostingCount);
+
+        // user prfImg
+        Set<UserImg> userImg = userService.findUserImgByUserId(userId);
+        model.addAttribute("userImg", userImg);
 
         // 템플릿에 user, followerCounts, followeeCounts를 전달
         return "posting/userpage";

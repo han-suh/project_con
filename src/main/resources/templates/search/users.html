@@ -19,12 +19,12 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="user : ${userList}">
-            <td th:text="${user.userId}"></td>
-            <td th:text="${user.userName}"></td>
-            <td th:text="${user.userEmail}"></td>
-            <td th:text = "${#temporals.format(user.userBirth, 'yy년 MM월 dd일')}" ></td>
-            <td><a th:href="@{'/user/{userId}/detail.do'(userId=${user.userId})}">상세보기</a></td>
+<!--        <p>검색된 사용자 수: <span th:text="${#lists.size(userList)}"></span></p>-->
+<!--        <tr th:each="user : ${userList}">-->
+<!--            <td th:text="${user.userId}"></td>-->
+<!--            <td th:text="${user.userName}"></td>-->
+<!--            <td th:text="${user.userEmail}"></td>-->
+<!--            <td th:text = "${#temporals.format(user.userBirth, 'yy년 MM월 dd일')}" ></td>-->
         </tr>
         </tbody>
     </table>

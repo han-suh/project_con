@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>게시물 등록</title>
+</head>
+<body>
+  <h1>게시물 등록</h1>
+    <form name="postRegisterForm" method="post">
+      <p>
+        <label>사진 등록</label>
+        <input type="file" id="imageUpload" name="image" accept="image/*" multiple> <!-- required> -->
+      </p>
+      <p>
+        <label>문구 추가</label>
+        <input name="contents" id="contents" value="" type="text">
+      </p>
+<!--  사람 태그의 경우 자동완성 드롭다운 방식으로 비동기 검색! -->
+      <p>
+        <label>사람 태그</label>
+        <input name="personTag" id="personTag" value="" type="text" placeholder="이름 또는 ID 또는 Email 검색" autocomplete="off">
+        <ul id="tagDropdown" class="dropdown"></ul>  <!-- 자동완성 리스트 -->
+      </p>
+      <p>
+        <label for="locationTag">위치 추가</label>
+        <input name="locationTag" id="locationTag" type="text" placeholder="장소 또는 주소 검색">
+        <button type="button" id="locationTagBtn">검색</button>
+      </p>
+      <div id="overlay" class="overlay"></div>
+<!--      #overlay	모달이 열릴 때 배경을 어둡게 만들어 클릭을 막는 용도-->
+      <div id="userModal" class="modal">
+<!--        #userModal	실제 모달(팝업) 창의 내용이 들어가는 곳-->
+          <h4>위치 검색</h4>
+          <button id="closeBtn" type="button">닫기</button>
+          <input name="locationSearch" id="locationSearch" type="text" placeholder="장소 또는 주소 검색">
+          <button id="locationSearchBtn" type="button">검색</button>
+        </div>
+      </div>
+      <p>
+        <label for="status">공개 대상</label>
+        <select name="status" id="status">
+          <option value="ALL">모두 공개</option>
+          <option value="FRIENDS">Follow 공개</option>
+          <option value="PRIVATE">비공개</option>
+        </select>
+      </p>
+      <p>
+        <button type="reset">초기화</button>
+        <button type="submit">등록</button>
+      </p>
+    </form>
+
+</body>
+<script>
+  const personTag = document.getElementById("personTag");
+  const personTagBtn = document.getElementById("personTagBtn");
+  const locationTag = document.getElementById("locationTag");
+  const locationTagBtn = document.getElementById("locationTagBtn");
+  const tagDropdown = document.getElementById("tagDropdown");
+
+  document.addEventListener("DOMContentLoaded", function (){
+      personTag.addEventListener("input",async function () {
+          const query = personTag.value.trim();
+          let response = await fetch(`/search/users?usersearch=${query}`);
+          let data = await response.json();
+
+          tagDropdown.innerHTML = "";
+
+          data.forEach(user => {
+              const li = document.createElement("li");
+              li.textContent = `${user.userName} (${user.userEmail})`;
+              li.dataset.userId = user.userId;
+
+              // 클릭 시 input에 값 넣기
+              li.addEventListener("click", function () {
+                  tagInput.value = user.userName;
+                  tagDropdown.innerHTML = "";
+                  tagDropdown.style.display = "none"; // 선택 후 드롭다운 숨김
+              });
+
+              tagDropdown.appendChild(li);
+          });
+
+          tagDropdown.style.display = "block"; // 검색 결과 있을 때 드롭다운 표시
+      })
+
+      // 드롭다운 바깥을 클릭하면 닫히도록 처리
+      document.addEventListener("click", function (event) {
+          if (!tagInput.contains(event.target) && !tagDropdown.contains(event.target)) {
+              tagDropdown.style.display = "none";
+          }
+      });
+  })
+
+</script>
+
+
+</html>
