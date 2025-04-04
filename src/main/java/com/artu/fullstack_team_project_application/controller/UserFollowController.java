@@ -2,14 +2,13 @@ package com.artu.fullstack_team_project_application.controller;
 
 import com.artu.fullstack_team_project_application.entity.postings.UserFollow;
 import com.artu.fullstack_team_project_application.entity.users.user.User;
+import com.artu.fullstack_team_project_application.service.postings.PostingService;
 import com.artu.fullstack_team_project_application.service.users.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +19,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class UserFollowController {
     private final UserService userService;
+    private final PostingService postingService;
 
     @GetMapping("/follower.do")
     public String follower(
@@ -40,6 +40,17 @@ public class UserFollowController {
         return "posting/follower"; // follower.html로 이동
     }
 
+    @PostMapping("/follower.do")
+    public ResponseEntity<String> follow(
+            @PathVariable String userId,
+            @RequestParam String followerId,
+            @RequestParam String followeeeId,
+            Model model
+    ){
+
+    }
+//followService.follow(followerId, followeeId);
+//            return ResponseEntity.ok("팔로우 성공");
 
     @GetMapping("/followee.do")
     public String followee(

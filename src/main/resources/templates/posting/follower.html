@@ -5,11 +5,34 @@
     <title>Follower</title>
 </head>
 <body>
+<!-- 나를 follow 중 -->
 <h1><span th:text="${user.userName}"></span>님의 Follower</h1>
 <div th:each="followee : ${user.followees}">
     <p th:text="${followee.followers.userName}"></p> <!-- followee의 이름을 출력 -->
     <p th:text="${followee.followers.userEmail}"></p>
-    <button type="button">팔로우</button>
+    <button class="followeeBtn"
+            th:data-follower="${user.userId}"
+            th:data-followee="${followee.followers.userId}">팔로우</button>
 </div>
 </body>
+
+<script>
+    const followeeBtn = document.getElementById("followeeBtn");
+    const USER_ID = '[[${user.userId}]]';
+
+    followeeBtn.querySelectorAll.forEach(button => {
+        button.addEventListener("click",async function(){
+        const followerId = this.dataset.follower;
+        const followeeId = this.dataset.followee;
+
+            let url = '/posting/${USER_ID}/follower.do'
+            const response = await fetch(url,{method:"post",});
+
+            if(response.ok){this.textContent = "언팔로우";}
+        })
+
+    })
+
+</script>
+
 </html>

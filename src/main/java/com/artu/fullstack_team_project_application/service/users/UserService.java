@@ -51,4 +51,6 @@ public interface UserService {
 
     Set<UserImg> findUserImgByUserId(String userId);
 
+    public void follow(String followerId, String followeeId);
+
 }

@@ -18,6 +18,7 @@ public interface UserFollowRepository extends JpaRepository<UserFollow, UserFoll
     Set<UserFollow> findByFollowerId(String followerId);
     Set<UserFollow> findByFolloweeId(String followeeId);
 
+    boolean existsFollowerIdByFolloweeId(String followerId, String followeeId);
 
     // follow 수
     @Query("SELECT COUNT(uf.followeeId) " +

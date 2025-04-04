@@ -127,6 +127,16 @@ public class UserServiceImp implements UserService {
         return userFollowRepository.findByFolloweeId(followeeId);
     }
 
+    @Override
+    public void follow(String followerId, String followeeId) {
+//        if(userFollowRepository.existsFollowerIdByFolloweeId(followerId, followeeId)) {
+//            throw new RuntimeException("이미 팔로우 중입니다.");
+//        }
+        UserFollow userFollow = new UserFollow();
+        userFollowRepository.save(userFollow);
+    }
+
+
     //
 //    public UserService(UserRepository userRepository) {
 //        this.userRepository = userRepository;
