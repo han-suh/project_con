@@ -5,6 +5,8 @@ import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @Embeddable
@@ -26,4 +28,15 @@ public class UserFollowId implements java.io.Serializable {
         this.followeeId = followeeId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        UserFollowId that = (UserFollowId) o;
+        return Objects.equals(followerId, that.followerId) && Objects.equals(followeeId, that.followeeId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(followerId, followeeId);
+    }
 }

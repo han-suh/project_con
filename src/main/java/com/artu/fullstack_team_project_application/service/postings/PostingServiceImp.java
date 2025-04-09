@@ -39,102 +39,11 @@ public class PostingServiceImp implements PostingService {
 
         return postingRepository.save(postingSave);
     }
-//
-//    @Override
-//    public void remove(Posting posting) {
-//        postingRepository.delete(posting);
-//    }
-//
-//    @Override
-//    public Page<Posting> findAll(Pageable pageable) {
-//        return null;
-//    }
-//
+
     @Override
     public Set<Posting> findByUserId(String userId) {
         return postingRepository.findByUser_UserId(userId);
     }
-
-    // 게시물 등록
-//    @Override
-//    public void register(Posting posting) {
-//        posting.setPostId(posting.getPostId());
-//        posting.setUserId(posting.getUserId());
-//        posting.setContents(posting.getContents());
-//        posting.setLocationTag(posting.getLocationTag());
-//        posting.setPersonTagId(posting.getPersonTagId());
-//        posting.setVisibilityType(posting.getVisibilityType());
-//        // postingRepository.save(posting);
-//        return postingRepository.save(posting);
-//    }
-
-
-
-
-
-
-/*
-        PostingImage postingImage = new PostingImage();
-        PostingComment postingComment = new PostingComment();
-        posting.setPostId(posting.getPostId());
-        posting.setUserId(posting.getUserId());
-        posting.setContents(posting.getContents());
-        posting.setLocationTag(posting.getLocationTag());
-        posting.setPersonTagId(posting.getPersonTagId());
-        posting.setVisibilityType(posting.getVisibilityType());
-        posting.setCreatedAt(posting.getCreatedAt());
-        posting.setEditAt(posting.getEditAt());
-        posting.setIsUsed(posting.getIsUsed());
-        postingImage.setPost(postingImage.getPost());
-        postingComment.setPost(postingComment.getPost());
-        postingImage.setImgId(postingImage.getImgId());
-        postingImage.setImgUrl(postingImage.getImgUrl());
-        Files entityManager;
-        Posting existPosting = entityManager.find(Posting.class,postId);
- */
-
-//    @Override
-//    public Set<Posting> findByPostId(Integer postId) {
-//        return postingRepository.findByPostId(postId);
-//    }
-//
-//    @Override
-//    public List<PostingImage> findPostingImageByPost_PostId(Integer postId) {
-//        return List.of();
-//    }
-//
-//    @Override
-//    public List<PostingImage> findPostingImageByUser_UserId(String userId) {
-//        return List.of();
-//    }
-
-
-
-
-//    @Override
-//    public Page<Posting> findAll(Pageable pageable) {
-//        return null;
-//    }
-
-//    @Override
-//    public List<Posting> findByUser_UserId(String userId) {
-//        return postingRepository.findByUser_UserId(userId);
-//    }
-
-//    @Override
-//    public List<PostingImage> findByPost_PostId(Posting postId) {
-//        return postingImageRepository.findByPost_PostId(postId);
-//    }
-
-//    @Override
-//    public Map<String, Long> getUserActivityCounts(Long userNum) {
-//        return Map.of();
-//    }
-
-//    @Override
-//    public List<PostingLike> readAllLikes() {
-//        return List.of();
-//    }
 
 
 }

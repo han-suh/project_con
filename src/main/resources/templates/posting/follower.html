@@ -7,31 +7,38 @@
 <body>
 <!-- 나를 follow 중 -->
 <h1><span th:text="${user.userName}"></span>님의 Follower</h1>
-<div th:each="followee : ${user.followees}">
-    <p th:text="${followee.followers.userName}"></p> <!-- followee의 이름을 출력 -->
-    <p th:text="${followee.followers.userEmail}"></p>
-    <button class="followeeBtn"
-            th:data-follower="${user.userId}"
-            th:data-followee="${followee.followers.userId}">팔로우</button>
+<div th:each = "follow : ${user.followers}">
+    <div th:each="img : ${follow.followers.userImgs}">
+        <img th:src="${img.prfImgUrl}" alt="프로필 사진" width="100" style="border-radius: 50%; object-fit: cover;">
+    </div>
+    <p th:text="${follow.followers.userName}"></p>
+    <p th:text="${follow.followers.userEmail}"></p>
+    <button class="followerBtn"
+            th:data-followee="${user.userId}"
+            th:data-follower="${follow.followers.userId}">팔로우</button>
 </div>
 </body>
 
 <script>
-    const followeeBtn = document.getElementById("followeeBtn");
+    const followerBtns = document.querySelectorAll(".followerBtn");
     const USER_ID = '[[${user.userId}]]';
 
-    followeeBtn.querySelectorAll.forEach(button => {
+    followerBtns.forEach(button => {
         button.addEventListener("click",async function(){
         const followerId = this.dataset.follower;
         const followeeId = this.dataset.followee;
+        const url = `/posting/${USER_ID}/follower.do`; // 백틱!!!!
+        const response = await fetch(url,{method:'POST',
+            headers: {'Content-Type': 'application/json'},
+            body : JSON.stringify({
+                followerId: followerId,
+                followeeId: followeeId
+            })
+        });
+        if (response.ok){alert("팔로우 성공")}
+        });
+    });
 
-            let url = '/posting/${USER_ID}/follower.do'
-            const response = await fetch(url,{method:"post",});
-
-            if(response.ok){this.textContent = "언팔로우";}
-        })
-
-    })
 
 </script>
 

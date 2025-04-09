@@ -19,11 +19,11 @@ public class SearchUserController {
 
     // 이름,메일,아이디로 일치한 사람 찾기
     @GetMapping("/users.do")
-    public ResponseEntity<List<User>> searchUsers(@RequestParam(required = false) String usersearch) {
-        if (usersearch == null || usersearch.isEmpty()) {
+    public ResponseEntity<List<User>> searchUsers(@RequestParam(required = false) String searchuser) {
+        if (searchuser == null || searchuser.isEmpty()) {
             return ResponseEntity.ok(Collections.emptyList()); // 빈 리스트 반환
         }
-        List<User> userList = userService.searchUsers(usersearch);
+        List<User> userList = userService.searchUsers(searchuser);
         return ResponseEntity.ok(userList); // JSON 형태로 반환
     }
 

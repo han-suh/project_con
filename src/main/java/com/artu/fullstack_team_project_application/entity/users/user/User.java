@@ -148,11 +148,11 @@ public class User {
     // UserFollow 엔티티와의 관계 설정
     @OneToMany(mappedBy = "followers")
     @OrderBy("followedAt ASC") // 정렬
-    private Set<UserFollow> followers = new LinkedHashSet<>();
+    private Set<UserFollow> followees = new LinkedHashSet<>();
 
     // UserFollow 엔티티와의 관계 설정
     @OneToMany(mappedBy = "followees")
     @OrderBy("followedAt ASC") // 정렬
-    private Set<UserFollow> followees = new LinkedHashSet<>();
+    private Set<UserFollow> followers = new LinkedHashSet<>();
 
 }

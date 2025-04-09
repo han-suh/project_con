@@ -22,21 +22,20 @@ public interface UserService {
     //
     public Optional<User> readOne(String userId);
 
+    // follow 추가/삭제
+    void registerUser(String followeeId, String followerId);
+//    void removeUser(String followeeId, String followerId);
+
     public User save(User user);
 
     public void delete(String userId);
 
-//    public List<UserInterest> readInterests(String userId);
-//    public List<UserInterest> saveInterests(UserInterest userInterest);
-
-//    // follow 리스트
-//    List<UserFollow> findByFolloweeId(String userId);
-//    List<UserFollow> findByFollowerId(String userId);
 
     // follow 수
     Map<String, Long> getCountFollower(String followeeId);
     Map<String, Long> getCountFollowee(String followerId);
 
+    // follow 리스트
     List<User> findAll();
     Set<UserFollow> findByFollowerId(String followerId);
     Set<UserFollow> findByFolloweeId(String followeeId);
@@ -50,7 +49,5 @@ public interface UserService {
     Map<String, Long> getCountPosting(String userId);
 
     Set<UserImg> findUserImgByUserId(String userId);
-
-    public void follow(String followerId, String followeeId);
 
 }

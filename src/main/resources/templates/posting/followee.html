@@ -7,44 +7,38 @@
 <body>
 <!-- 내가 follow 중 -->
 <h1><span th:text="${user.userName}"></span>님의 Followee</h1>
-<!--<tr th:each="user : ${users}">-->
-<!--    <td th:text="${user.userId}"></td>-->
-<!--    <td th:text="${user.userName}"></td>-->
-<!--    <td th:text="${user.userEmail}"></td>-->
-<!--    <td><a th:href="@{'/posting/{userId}/userpage.do'(userId=${user.userId})}">개인페이지</a></td>-->
-<!--<div th:each="u : ${user}">-->
-<!--<div th:text="${user.followers[0].followees}"></div>-->
-<!--<div th:text="${user.followers}"></div>-->
-<!--<div th:each="followee : ${user.followers[0].followees}"></div>-->
-<!--<div th:text="followee.userName"></div>-->
-
-<!--<div th:each="follower : ${user.followers}" th:text="${user.followees}"></div>-->
-<!--<p th:text="${follower}"></p>-->
-
-<!-- followees 목록을 반복하면서 출력 -->
-<div th:each="follower : ${user.followers}">
-    <p th:text="${follower.followees.userName}" ></p> <!-- followee의 이름을 출력 -->
-    <p th:text="${follower.followees.userEmail}"></p>
-    <button id="followerBtn" data-followee="1" data-follower="2">언팔로우</button>
-
-    <!-- 각 followee의 followers를 반복 -->
-<!--    <div th:each="follower : ${followee.followers}">-->
-<!--        <p th:text="${follower.userName}"></p> &lt;!&ndash; follower의 이름을 출력 &ndash;&gt;-->
-<!--        <p th:text="${follower.userEmail}"></p> &lt;!&ndash; follower의 이메일을 출력 &ndash;&gt;-->
-<!--    </div>-->
+<!--<p th:text="${user.followers}"></p>-->
+<div th:each = "follow : ${user.followees}">
+    <div th:each="img : ${follow.followees.userImgs}">
+        <img th:src="${img.prfImgUrl}" alt="프로필 사진" width="100" style="border-radius: 50%; object-fit: cover;">
+    </div>
+    <p th:text="${follow.followees.userName}"></p>
+    <p th:text="${follow.followees.userEmail}"></p>
+    <button class="followeeBtn"
+            th:data-follower="${user.userId}"
+            th:data-followee="${follow.followees.userId}">언팔로우</button>
 </div>
-
-<!--<p th:text="${user.followers[0].followees.userName}"></p>-->
-<!--<p th:text="${user.followers[0].followees.userEmail}"></p>-->
-
 </body>
 
 <script>
-    const followerBtn = document.getElementById("followerBtn");
+    const followeeBtns = document.querySelectorAll(".followeeBtn");
+    const USER_ID = '[[${user.userId}]]';
 
-    followerBtn.addEventListener("click", async function(){
-
-    })
+    followerBtns.forEach(button => {
+        button.addEventListener("click",async function(){
+            const followerId = this.dataset.follower;
+            const followeeId = this.dataset.followee;
+            const url = `/posting/${USER_ID}/followee.do`; // 백틱!!!!
+            const response = await fetch(url,{method:'POST',
+                headers: {'Content-Type': 'application/json'},
+                body : JSON.stringify({
+                    followerId: followerId,
+                    followeeId: followeeId
+                })
+            });
+            if (response.ok){alert("언팔로우 성공")}
+        });
+    });
 
 
 </script>

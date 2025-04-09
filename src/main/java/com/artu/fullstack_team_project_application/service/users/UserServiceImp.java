@@ -1,6 +1,7 @@
 package com.artu.fullstack_team_project_application.service.users;
 
 import com.artu.fullstack_team_project_application.entity.postings.UserFollow;
+import com.artu.fullstack_team_project_application.entity.postings.UserFollowId;
 import com.artu.fullstack_team_project_application.entity.users.user.User;
 import com.artu.fullstack_team_project_application.entity.users.user.UserImg;
 import com.artu.fullstack_team_project_application.entity.users.user.UserInterest;
@@ -36,6 +37,24 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public void registerUser(String followeeId, String followerId) {
+        //
+        User followee = userRepository.findById(followeeId).orElseThrow();
+        User follower = userRepository.findById(followerId).orElseThrow();
+//        User followedAt = userRepository.
+
+        UserFollow userFollow = new UserFollow();
+        userFollow.setFollowers(follower);
+        userFollow.setFollowees(followee);
+        userFollow.setFollowerId(followerId);
+        userFollow.setFolloweeId(followeeId);
+//        userFollow.setFollowedAt();
+
+        userFollowRepository.save(userFollow);
+    }
+
+
+    @Override
     public User save(User user) {
         return user;
     }
@@ -43,26 +62,6 @@ public class UserServiceImp implements UserService {
     @Override
     public void delete(String userId) {
     }
-//
-//    @Override
-//    public List<UserInterest> readInterests(String userId) {
-//        return List.of();
-//    }
-//
-//    @Override
-//    public List<UserInterest> saveInterests(UserInterest userInterest) {
-//        return List.of();
-//    }
-
-//    @Override
-//    public List<UserFollow> findByFolloweeId(String userId) {
-//        return userFollowRepository.findByFolloweeId(userId);
-//    }
-//
-//    @Override
-//    public List<UserFollow> findByFollowerId(String userId) {
-//        return userFollowRepository.findByFollowerId(userId);
-//    }
 
     //
     @Override
@@ -127,34 +126,4 @@ public class UserServiceImp implements UserService {
         return userFollowRepository.findByFolloweeId(followeeId);
     }
 
-    @Override
-    public void follow(String followerId, String followeeId) {
-//        if(userFollowRepository.existsFollowerIdByFolloweeId(followerId, followeeId)) {
-//            throw new RuntimeException("이미 팔로우 중입니다.");
-//        }
-        UserFollow userFollow = new UserFollow();
-        userFollowRepository.save(userFollow);
-    }
-
-
-    //
-//    public UserService(UserRepository userRepository) {
-//        this.userRepository = userRepository;
-//    }
-//
-//    public List<User> getAllUsers() {
-//        return userRepository.findAll();
-//    }
-//
-//    public Optional<User> getUserById(String userId) {
-//        return userRepository.findById(userId);
-//    }
-//
-//    public User saveUser(User user) {
-//        return userRepository.save(user);
-//    }
-//
-//    public void deleteUser(String userId) {
-//        userRepository.deleteById(userId);
-//    }
 }

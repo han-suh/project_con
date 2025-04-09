@@ -28,13 +28,6 @@ public interface PostingRepository extends JpaRepository<Posting, Integer> {
     // List<Posting> findByPersonTagId(String personTagId);
 
     // posting 수
-//    @Query("SELECT COUNT(uf.followeeId) " +
-//            "FROM User u LEFT JOIN UserFollow uf " +
-//            "ON u.userId = uf.followerId " +
-//            "WHERE u.userId = :followerId " +
-//            "GROUP BY u.userId")
-//    Long countpostingByUserId(@Param("followerId") String followerId);
-
     @Query("SELECT COUNT(p.postId) " +
             "FROM User u LEFT JOIN Posting p " +
             "ON u.userId = p.userId " +

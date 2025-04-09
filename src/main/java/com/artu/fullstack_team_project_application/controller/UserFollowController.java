@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -32,25 +33,23 @@ public class UserFollowController {
         Set<UserFollow> findByFolloweeId = userService.findByFolloweeId(followeeId);
         Optional<User> userOptional = userService.findByUserId(userId);
 
-
         User user = userOptional.get();
         model.addAttribute("user", user);
         model.addAttribute("findByFollowerId", findByFollowerId);
         model.addAttribute("findByFolloweeId", findByFolloweeId);
+
         return "posting/follower"; // follower.html로 이동
     }
 
-    @PostMapping("/follower.do")
-    public ResponseEntity<String> follow(
-            @PathVariable String userId,
-            @RequestParam String followerId,
-            @RequestParam String followeeeId,
-            Model model
-    ){
 
+    @PostMapping("/follower.do")
+    public ResponseEntity<String> userFollowRegister(@RequestBody Map<String, String> request) {
+        String followerId = request.get("followerId");
+        String followeeId = request.get("followeeId");
+        userService.registerUser(followerId, followeeId);
+        return ResponseEntity.ok("Success");
     }
-//followService.follow(followerId, followeeId);
-//            return ResponseEntity.ok("팔로우 성공");
+
 
     @GetMapping("/followee.do")
     public String followee(
@@ -70,7 +69,5 @@ public class UserFollowController {
         model.addAttribute("findByFolloweeId", findByFolloweeId);
         return "posting/followee"; // followee.html로 이동
     }
-
-
 
 }

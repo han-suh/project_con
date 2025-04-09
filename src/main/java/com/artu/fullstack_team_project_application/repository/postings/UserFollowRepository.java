@@ -2,6 +2,7 @@ package com.artu.fullstack_team_project_application.repository.postings;
 
 import com.artu.fullstack_team_project_application.entity.postings.UserFollow;
 import com.artu.fullstack_team_project_application.entity.postings.UserFollowId;
+import com.artu.fullstack_team_project_application.entity.users.user.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,7 +19,7 @@ public interface UserFollowRepository extends JpaRepository<UserFollow, UserFoll
     Set<UserFollow> findByFollowerId(String followerId);
     Set<UserFollow> findByFolloweeId(String followeeId);
 
-    boolean existsFollowerIdByFolloweeId(String followerId, String followeeId);
+//    boolean existsFollowerIdByFolloweeId(String followerId, String followeeId);
 
     // follow 수
     @Query("SELECT COUNT(uf.followeeId) " +
@@ -34,9 +35,6 @@ public interface UserFollowRepository extends JpaRepository<UserFollow, UserFoll
             "WHERE u.userId = :followeeId " +
             "GROUP BY u.userId")
     Long countFollowerByUserId(@Param("followeeId") String followeeId);
-
-
-
 
 
 }
