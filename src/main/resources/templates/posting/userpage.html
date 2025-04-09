@@ -24,7 +24,7 @@
     }
 </style>
 <body>
-<h1><span th:text="${user.userId}"></span>님의 페이지</h1>
+<h1><span th:text="${user.userName}"></span>님의 마이페이지</h1>
 <p th:each=" img : ${userImg}">
     <img th:src="${img.prfImgUrl}" alt="프로필 사진" width="100" style="border-radius: 50%; object-fit: cover;">
 </p>

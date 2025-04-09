@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -42,11 +41,11 @@ public class UserFollowController {
     }
 
 
-    @PostMapping("/follower.do")
+    @PostMapping("/followee.do")
     public ResponseEntity<String> userFollowRegister(@RequestBody Map<String, String> request) {
         String followerId = request.get("followerId");
         String followeeId = request.get("followeeId");
-        userService.registerUser(followerId, followeeId);
+        userService.registerUser(followeeId, followerId);
         return ResponseEntity.ok("Success");
     }
 

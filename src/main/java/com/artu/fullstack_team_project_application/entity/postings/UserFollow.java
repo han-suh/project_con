@@ -32,18 +32,16 @@ public class UserFollow {
     private String followeeId;
 
     // followee 팔로우당한 user
-    @MapsId("followeeId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "follower_id", nullable = false)
+    @JoinColumn(name = "follower_id",insertable = false, updatable = false)
     @JsonIgnore
     private User followers;
 
     // follower 팔로원한 user
-     @MapsId("followerId")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "followee_id", nullable = false)
+    @JoinColumn(name = "followee_id",insertable = false, updatable = false)
     @JsonIgnore
     private User followees;
 
