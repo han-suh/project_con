@@ -29,14 +29,18 @@
             const followerId = this.dataset.follower;
             const followeeId = this.dataset.followee;
             const url = `/posting/${USER_ID}/followee.do`; // 백틱!!!!
-            const response = await fetch(url,{method:'POST',
+
+            const response = await fetch(url,{method:'DELETE',
                 headers: {'Content-Type': 'application/json'},
                 body : JSON.stringify({
                     followerId: followerId,
                     followeeId: followeeId
                 })
             });
-            if (response.ok){alert("언팔로우 성공")}
+            if (response.ok){
+                alert("언팔로우 성공");
+                this.closest('div').remove();
+            }
         });
     });
 

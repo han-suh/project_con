@@ -1,6 +1,8 @@
 package com.artu.fullstack_team_project_application.controller;
 
+import com.artu.fullstack_team_project_application.dto.PostingCommentsDto;
 import com.artu.fullstack_team_project_application.entity.postings.Posting;
+import com.artu.fullstack_team_project_application.entity.postings.PostingComment;
 import com.artu.fullstack_team_project_application.entity.postings.UserFollow;
 import com.artu.fullstack_team_project_application.entity.users.user.User;
 import com.artu.fullstack_team_project_application.entity.users.user.UserImg;
@@ -16,10 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 @RequestMapping("/posting")
@@ -96,6 +95,7 @@ public class PostingController {
 //        //return "posting/postpage";
 //    }
 
+    // user의 전체 게시물
     @GetMapping("/{userId}/postpage.do")
     @ResponseBody
     public ResponseEntity<Set<Posting>> postpage(
@@ -104,6 +104,18 @@ public class PostingController {
         // return ResponseEntity.ok(postings);
         return ResponseEntity.status(201).body(postings);
     }
+
+    // 한 게시물에 대한
+    @GetMapping("/{userId}/postdetail.do")
+    @ResponseBody
+    public ResponseEntity<Posting> post(
+            @ModelAttribute Posting posting
+            ) {
+        Posting postings = postingService.findByPostId(posting.getPostId());
+
+        return ResponseEntity.status(201).body(postings);
+    }
+
 
     @GetMapping("/{userId}/postAdd.do")
     public String postForm(

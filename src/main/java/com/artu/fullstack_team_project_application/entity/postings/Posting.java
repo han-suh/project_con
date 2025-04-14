@@ -1,8 +1,10 @@
 package com.artu.fullstack_team_project_application.entity.postings;
 
+import com.artu.fullstack_team_project_application.dto.PostingCommentsDto;
 import com.artu.fullstack_team_project_application.entity.users.user.User;
 import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -11,7 +13,9 @@ import lombok.ToString;
 import org.hibernate.annotations.*;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -67,8 +71,10 @@ public class Posting {
     private Set<PostingImage> postingImages = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "post")
-    private Set<PostingComment> postingComments = new LinkedHashSet<>();
+    private Set<PostingComment> comments = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "post")
+    private Set<PostingLike> postingLikes = new LinkedHashSet<>();
 
 
 }

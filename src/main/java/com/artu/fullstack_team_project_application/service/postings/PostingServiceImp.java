@@ -1,9 +1,11 @@
 package com.artu.fullstack_team_project_application.service.postings;
 
+import com.artu.fullstack_team_project_application.dto.PostingCommentsDto;
 import com.artu.fullstack_team_project_application.entity.postings.Posting;
 import com.artu.fullstack_team_project_application.entity.postings.PostingComment;
 import com.artu.fullstack_team_project_application.entity.postings.PostingImage;
 import com.artu.fullstack_team_project_application.entity.postings.PostingLike;
+import com.artu.fullstack_team_project_application.repository.postings.PostingCommentRepository;
 import com.artu.fullstack_team_project_application.repository.postings.PostingImageRepository;
 import com.artu.fullstack_team_project_application.repository.postings.PostingRepository;
 import jakarta.persistence.EntityManager;
@@ -14,9 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.Files;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -24,6 +25,7 @@ public class PostingServiceImp implements PostingService {
     private PostingRepository postingRepository;
     private final PostingImageRepository postingImageRepository;
     private final EntityManager entityManager;
+    private PostingCommentRepository postingCommentRepository;
 
     @Override
     public Posting save(Posting posting) {
@@ -43,6 +45,27 @@ public class PostingServiceImp implements PostingService {
     @Override
     public Set<Posting> findByUserId(String userId) {
         return postingRepository.findByUser_UserId(userId);
+    }
+
+    @Override
+    public Posting findByPostId(Integer postId) {
+        Posting posting = postingRepository.findByPostId(postId);
+
+//        Set<PostingComment> comments = postingCommentRepository.findByPost_PostId(postId);
+//        Set<PostingCommentsDto> postingCommentsDto = comments.stream()
+//                .map(PostingCommentsDto::new)
+//                .collect(Collectors.toSet());
+//        // posting.setComments(new ArrayList<>(postingCommentsDto));
+//        posting.setComments(postingCommentsDto);
+//
+//        Set<PostingComment> postingComments = comments.stream()
+//                .collect(Collectors.toSet());
+
+//        posting.setComments(postingComments);
+
+        Set<PostingCommentsDto> postingCommentsDto = new HashSet<>();
+
+        return posting;
     }
 
 

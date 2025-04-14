@@ -69,4 +69,14 @@ public class UserFollowController {
         return "posting/followee"; // followee.html로 이동
     }
 
+//    @DeleteMapping("/followee.do")
+//    public ResponseEntity<void> userUnfollow(
+//            @PathVariable String userId,
+//            @RequestParam(required = false) String followeeId,
+//            @RequestParam(required = false) String followerId,
+//            Model model
+//    ) {
+//        return ResponseEntity.ok().build();
+//    }
+
 }

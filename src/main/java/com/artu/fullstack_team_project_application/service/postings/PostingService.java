@@ -29,8 +29,8 @@ public interface PostingService {
     // 게시글 등록
     // void register(Posting posting);
 
-    // post_Id
-    // Set<Posting> findByPostId(Integer postId);
+     // post_Id
+     Posting findByPostId(Integer postId);
 
     // 게시글 이미지
     // List<PostingImage> findPostingImageByPost_PostId(Integer postId);

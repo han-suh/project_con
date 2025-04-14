@@ -22,6 +22,47 @@
         height: auto;
         margin-right: 10px;
     }
+
+    #modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* 배경을 반투명 검정으로 설정 */
+        z-index: 1000; /* 다른 요소들 위에 표시되도록 설정 */
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-content {
+        position: relative;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 50%;
+        max-width: 500px;
+        margin: auto;
+    }
+
+    .modal-content img {
+        /*width: 100%;*/
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    .modelBtn {
+        padding: 10px 20px;
+        background-color: #c1c1c1 ;
+        color: ;
+        border: none;
+        cursor: pointer;
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        border-radius: 5px;
+    }
 </style>
 <body>
 <h1><span th:text="${user.userName}"></span>님의 마이페이지</h1>
@@ -33,9 +74,9 @@
 <p>게시물</p>
 <p th:text="${countPostingCount}">게시물 수</p>
 <p><a th:href="@{'/posting/{userId}/follower.do'(userId=${user.userId})}">팔로워</a></p>
-<p th:text="${countFollowerCount}">팔로워 수</p>
+<p th:text="${countFolloweeCount}">팔로워 수</p>
 <p><a th:href="@{'/posting/{userId}/followee.do'(userId=${user.userId})}">팔로우</a></p>
-<p th:text="${countFolloweeCount}">팔로우 수</p>
+<p th:text="${countFollowerCount}">팔로우 수</p>
 
 <form action="/search/users.do" method="GET">
     <label for="searchUser">사람 태그</label>
@@ -50,7 +91,7 @@
             <a th:href="@{'/posting/{userId}/postAdd.do'(userId=${user.userId})}"><button id="postAddBtn">게시물 추가</button></a>
             <thead>
             <tr>
-                <th>이미지</th>
+<!--                <th>이미지</th>-->
 <!--                <th>내용</th>-->
 <!--                <th>장소태그</th>-->
 <!--                <th>사람태그</th>-->
@@ -64,15 +105,19 @@
     </div>
 </div>
 
+<div id="modal" style="display: none;"></div>
+
 </body>
 
 <script>
     const postTbody = document.getElementById("postTbody");
     const USER_ID='[[${user.userId}]]';  // userId가 문자열이기 때문에 ''로 문자열임을 표시!!!
+    const modal = document.getElementById("modal")
+
     const userPost = async function(){
-        let url = `/posting/${USER_ID}/postpage.do`; // 백틱으로 사용해야 가능
-        let response = await fetch(url);
-        let posts = await response.json();
+        const url = `/posting/${USER_ID}/postpage.do`; // 백틱으로 사용해야 가능
+        const response = await fetch(url);
+        const posts = await response.json();
         let html = "";
         // console.log(posts)
 
@@ -80,14 +125,16 @@
         // let postImageMap = {};
 
         for(let p of posts){
-            // console.log(p)
-            console.log(p.postingImages)
+            // console.log("posts 출력",posts)
+            // console.log("p 출력",p)
+            // console.log(p.postingImages)
+            // console.log("postId 출력",p.postId)
             let firstImageObj = p.postingImages.find(img => img.imgOrder === 0);
             let firstImage = firstImageObj && firstImageObj.imgUrl;
             html+=`
                     <tr>
                         <td>
-                            <img src="${firstImage}" alt="포스팅 대표 이미지" width="330">
+                            <img src="${firstImage}" alt="포스팅 대표 이미지" width="330" class="postimg"  data-post-id="${p.postId}" >
                         </td>
                     </tr>`;
 
@@ -161,6 +208,53 @@
    //  }
    //
    // postingBtn.addEventListener("click",postUser)
+
+
+    // 모달
+    document.addEventListener("click", async(e)=>{
+        const target = e.target.closest('.postimg');
+        if (!target) return; // 클릭한 곳에 postimg 클래스 없으면 아무것도 안 함
+
+        const postId = target.dataset.postId;
+        if (!postId) return;
+
+        // console.log("e.target 출력", e.target)
+        // console.log("e.target.dataset 출력", e.target.dataset)
+        // console.log("e.target.dataset.postId 출력", e.target.dataset.postId)
+        const url2 = `/posting/${USER_ID}/postdetail.do?postId=${postId}`
+        const res = await fetch(url2)
+        const detail = await res.json();
+
+        modal.innerHTML = `
+            <div class="modal-content">
+            <button class="modelBtn" onclick="modal.style.display='none'">닫기</button>
+            ${detail.postingImages ? detail.postingImages.map(img => `<img src="${img.imgUrl}" width="100">`).join('') : ''}
+<!--            ${detail.comments && detail.comments.length > 0 ? detail.comments.map(com => `<p>${com.content}</p>`).join('') : ''}-->
+<!--            <div> ❤️ $ </div>>-->
+            <p>${detail.contents}</p>
+            <br>
+            ${detail.comments ? detail.comments.map(com => `<p>${com.contents}</p>`).join('') : ''}
+            </div>
+        `;
+        modal.style.display = "block";
+
+        console.log("detail:", detail);
+        console.log("postingImages:", detail.postingImages);
+        console.log("comments:", detail.comments);
+    });
+
+    // document.getElementById("modal").innerHTML = `
+    //     <div class="modal-content">
+    //         <h2>${d.writer}</h2>
+    //         <p>${d.content}</p>
+    //         ${d.imageUrls.map(u => `<img src="${u}" width="200">`).join('')}
+    //         <div>❤️ ${d.likeCount}</div>
+    //         ${d.comments.map(c => `<p><b>${c.writer}</b>: ${c.content}</p>`).join('')}
+    //         <button onclick="document.getElementById('modal').style.display='none'">닫기</button>
+    //     </div>
+    // `;
+    // document.getElementById("modal").style.display = "block";
+
 
 </script>
 

@@ -19,7 +19,8 @@ public interface PostingRepository extends JpaRepository<Posting, Integer> {
     Set<Posting> findByUser_UserId(String userId);
 
     // post_Id
-     // Set<Posting> findByPostId(Integer postId);
+    Posting findByPostId(Integer postId);
+
 
     // 위치 태그
     // List<Posting> findByLocationTag(String locationTag);
@@ -33,4 +34,10 @@ public interface PostingRepository extends JpaRepository<Posting, Integer> {
             "ON u.userId = p.userId " +
             "WHERE u.userId = :userId")
     Long countpostingByUserId(@Param("userId") String userId);
+
+    // postImg
+
+
+
+
 }
