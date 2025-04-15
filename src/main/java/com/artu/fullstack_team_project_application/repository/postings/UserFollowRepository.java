@@ -36,7 +36,7 @@ public interface UserFollowRepository extends JpaRepository<UserFollow, UserFoll
             "GROUP BY u.userId")
     Long countFollowerByUserId(@Param("followeeId") String followeeId);
 
-
+    // void removeUserFollowByFolloweeId(String followeeId);
 
 
 }

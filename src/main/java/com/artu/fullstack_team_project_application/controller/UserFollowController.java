@@ -41,13 +41,6 @@ public class UserFollowController {
     }
 
 
-    @PostMapping("/followee.do")
-    public ResponseEntity<String> userFollowRegister(@RequestBody Map<String, String> request) {
-        String followerId = request.get("followerId");
-        String followeeId = request.get("followeeId");
-        userService.registerUser(followeeId, followerId);
-        return ResponseEntity.ok("Success");
-    }
 
 
     @GetMapping("/followee.do")
@@ -79,4 +72,21 @@ public class UserFollowController {
 //        return ResponseEntity.ok().build();
 //    }
 
+    @PostMapping("/followee.do")
+    public ResponseEntity<String> userFollowRegister(@RequestBody Map<String, String> request) {
+        String followerId = request.get("followerId");
+        String followeeId = request.get("followeeId");
+        userService.registerFollow(followeeId, followerId);
+        return ResponseEntity.ok("Success");
+    }
+
+    @DeleteMapping("/followee.do")
+    public ResponseEntity<String> deleteFollower(
+            @RequestBody Map<String, String> body
+    ) {
+        String followerId = body.get("followerId");
+        String followeeId = body.get("followeeId");
+        userService.removeFollow(followeeId, followerId);
+        return ResponseEntity.ok("Success");
+    }
 }

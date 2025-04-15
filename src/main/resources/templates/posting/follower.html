@@ -31,8 +31,8 @@
         const response = await fetch(url,{method:'POST',
             headers: {'Content-Type': 'application/json'},
             body : JSON.stringify({
-                followeeId: followerId,
-                followerId: followeeId
+                followeeId: followeeId,
+                followerId: followerId
             })
         });
         if (response.ok){alert("팔로우 성공")}

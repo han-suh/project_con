@@ -24,13 +24,14 @@
     const followeeBtns = document.querySelectorAll(".followeeBtn");
     const USER_ID = '[[${user.userId}]]';
 
-    followerBtns.forEach(button => {
+    followeeBtns.forEach(button => {
         button.addEventListener("click",async function(){
             const followerId = this.dataset.follower;
             const followeeId = this.dataset.followee;
             const url = `/posting/${USER_ID}/followee.do`; // 백틱!!!!
 
-            const response = await fetch(url,{method:'DELETE',
+            const response = await fetch(url,{
+                method:'DELETE',
                 headers: {'Content-Type': 'application/json'},
                 body : JSON.stringify({
                     followerId: followerId,

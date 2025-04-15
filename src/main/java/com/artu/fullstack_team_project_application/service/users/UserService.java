@@ -23,8 +23,8 @@ public interface UserService {
     public Optional<User> readOne(String userId);
 
     // follow 추가/삭제
-    void registerUser(String followeeId, String followerId);
-//    void removeUser(String followeeId, String followerId);
+    void registerFollow(String followeeId, String followerId);
+    void removeFollow(String followeeId, String followerId);
 
     public User save(User user);
 

@@ -10,6 +10,7 @@ import com.artu.fullstack_team_project_application.repository.postings.UserFollo
 import com.artu.fullstack_team_project_application.repository.users.UserImageRepository;
 import com.artu.fullstack_team_project_application.repository.users.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UserServiceImp implements UserService {
@@ -37,7 +39,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void registerUser(String followeeId, String followerId) {
+    public void registerFollow(String followeeId, String followerId) {
         //
 //        User followee = userRepository.findById(followeeId).orElseThrow();
 //        User follower = userRepository.findById(followerId).orElseThrow();
@@ -54,6 +56,20 @@ public class UserServiceImp implements UserService {
         userFollowId.setFolloweeId(followeeId);
 
         userFollowRepository.save(userFollow);
+    }
+
+    @Override
+    public void removeFollow(String followeeId, String followerId) {
+        UserFollow userFollow = new UserFollow();
+        userFollow.setFollowerId(followerId);
+        userFollow.setFolloweeId(followeeId);
+        UserFollowId userFollowId = new UserFollowId();
+        userFollowId.setFollowerId(followerId);
+        userFollowId.setFolloweeId(followeeId);
+//        userFollowRepository.delete(userFollow);
+        if (userFollowRepository.existsById(userFollowId)) {
+            userFollowRepository.deleteById(userFollowId);
+        }
     }
 
 
