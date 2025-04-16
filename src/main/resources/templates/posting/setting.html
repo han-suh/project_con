@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Setting</title>
+</head>
+<body>
+    <h1>설정</h1>
+    <p th:text=" ${user.userName}">님의 설정</p>
+<!--    <p th:text=" ${userSetting.displayColor}"></p>-->
+<!--    <p th:text=" ${userSetting.language}"></p>-->
+
+    <form th:action="@{'/posting/' + ${userId} + '/setting.do'}" method="post">
+        <input type="hidden" name="userId" th:value="${userId}" />
+
+        <label>디스플레이 모드</label>
+        <select name="displayColor">
+            <option value="Light" th:selected="${userSetting.displayColor.name() == 'Light'}">Light</option>
+            <option value="Dark" th:selected="${userSetting.displayColor.name() == 'Dark'}">Dark</option>
+        </select>
+
+        <label>언어</label>
+        <select name="language">
+            <option value="System" th:selected="${userSetting.language.name() == 'System'}">시스템</option>
+            <option value="Korean" th:selected="${userSetting.language.name() == 'Korean'}">한국어</option>
+            <option value="English" th:selected="${userSetting.language.name() == 'English'}">영어</option>
+        </select>
+
+        <button type="submit">저장</button>
+    </form>
+
+
+</body>
+</html>

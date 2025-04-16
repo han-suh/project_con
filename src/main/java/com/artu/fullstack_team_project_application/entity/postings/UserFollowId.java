@@ -4,12 +4,14 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Objects;
 
 @Getter
 @Setter
 @Embeddable
+@ToString
 public class UserFollowId implements java.io.Serializable {
     private static final long serialVersionUID = -4195320815653977628L;
 
@@ -39,4 +41,10 @@ public class UserFollowId implements java.io.Serializable {
 //    public int hashCode() {
 //        return Objects.hash(followerId, followeeId);
 //    }
+//
+//    public String getFollowerId() { return followerId; }
+//    public void setFollowerId(String followerId) { this.followerId = followerId; }
+//
+//    public String getFolloweeId() { return followeeId; }
+//    public void setFolloweeId(String followeeId) { this.followeeId = followeeId; }
 }

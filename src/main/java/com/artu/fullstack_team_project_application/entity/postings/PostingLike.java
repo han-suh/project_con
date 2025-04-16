@@ -51,4 +51,9 @@ public class PostingLike {
     @Column(name = "liked_at")
     private Instant likedAt;
 
+    @ColumnDefault("1")
+    @Column(name = "is_used")
+    private Boolean isUsed;
+
+
 }

@@ -1,5 +1,6 @@
 package com.artu.fullstack_team_project_application.entity.users.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,25 +21,29 @@ public class UserSetting {
     public enum Language {System, English, Korean}
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "setting_id", nullable = false)
     private Integer settingId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
     private User user;
 
     @ColumnDefault("'Light'")
-    @Lob
+//    @Lob
     @Column(name = "display_color")
+    @Enumerated(EnumType.STRING)
     private DisplayColor displayColor;
 
     @ColumnDefault("'System'")
-    @Lob
+//    @Lob
     @Column(name = "language")
+    @Enumerated(EnumType.STRING)
     private Language language;
 
-    // @ColumnDefault("CURRENT_TIMESTAMP")
+//    @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "set_at")
     private Instant setAt;
 

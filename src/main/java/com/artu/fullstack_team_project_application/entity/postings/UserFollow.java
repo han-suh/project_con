@@ -15,8 +15,8 @@ import java.time.Instant;
 @Setter
 @Entity
 @ToString
-@SQLDelete(sql = "UPDATE user_follow SET is_used = true WHERE followee_id = ? AND follower_id = ?")
-@Where(clause = "is_used = true")
+@SQLDelete(sql = "UPDATE user_follow SET is_used = false WHERE followee_id = ? AND follower_id = ?")
+//@Where(clause = "is_used = true")
 @Table(name = "user_follow")
 @IdClass(UserFollowId.class)
 public class UserFollow {
@@ -48,5 +48,9 @@ public class UserFollow {
     // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "followed_at")
     private Instant followedAt;
+
+    @ColumnDefault("1")
+    @Column(name = "is_used")
+    private Boolean isUsed;
 
 }

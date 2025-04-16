@@ -39,4 +39,5 @@ public interface PostingService {
     // List<PostingImage> findPostingImageByUser_UserId(String userId);
 
 
+
 }

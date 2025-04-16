@@ -1,15 +1,20 @@
 package com.artu.fullstack_team_project_application.controller;
 
 import com.artu.fullstack_team_project_application.entity.postings.UserFollow;
+import com.artu.fullstack_team_project_application.entity.postings.UserFollowId;
 import com.artu.fullstack_team_project_application.entity.users.user.User;
+import com.artu.fullstack_team_project_application.entity.users.user.UserSetting;
 import com.artu.fullstack_team_project_application.service.postings.PostingService;
 import com.artu.fullstack_team_project_application.service.users.UserService;
+import com.artu.fullstack_team_project_application.service.users.UserServiceImp;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -18,7 +23,7 @@ import java.util.Set;
 @RequestMapping("posting/{userId}")
 @AllArgsConstructor
 public class UserFollowController {
-    private final UserService userService;
+    private final UserServiceImp userService;
     private final PostingService postingService;
 
     @GetMapping("/follower.do")
@@ -28,6 +33,7 @@ public class UserFollowController {
             @RequestParam(required = false) String followeeId,
             Model model
     ) {
+
         Set<UserFollow> findByFollowerId = userService.findByFollowerId(followerId);
         Set<UserFollow> findByFolloweeId = userService.findByFolloweeId(followeeId);
         Optional<User> userOptional = userService.findByUserId(userId);
@@ -73,20 +79,38 @@ public class UserFollowController {
 //    }
 
     @PostMapping("/followee.do")
-    public ResponseEntity<String> userFollowRegister(@RequestBody Map<String, String> request) {
-        String followerId = request.get("followerId");
-        String followeeId = request.get("followeeId");
-        userService.registerFollow(followeeId, followerId);
+    public ResponseEntity<String> userFollowRegister(@RequestBody UserFollowId followId) {
+        userService.registerFollow(followId);
         return ResponseEntity.ok("Success");
     }
 
     @DeleteMapping("/followee.do")
     public ResponseEntity<String> deleteFollower(
-            @RequestBody Map<String, String> body
-    ) {
-        String followerId = body.get("followerId");
-        String followeeId = body.get("followeeId");
-        userService.removeFollow(followeeId, followerId);
+            @RequestBody UserFollowId followId
+            ) {
+        System.out.println("deleteFollower: "+followId);
+
+        userService.removeFollow(followId);
         return ResponseEntity.ok("Success");
     }
 }
+//@PostMapping("setting.do")
+//public String saveUserSetting(
+//        @PathVariable String userId,
+//        @ModelAttribute UserSetting userSetting,
+//        RedirectAttributes redirectAttributes
+//) {
+//    User user = userService.findByUserId(userId).orElseThrow(() -> new RuntimeException("찾을 수 없습니다."));
+//    UserSetting setting = userSettingService.findOne(userId).orElse(new UserSetting());
+//
+//    setting.setUser(user);
+//    setting.setSettingId(setting.getSettingId());
+//    setting.setDisplayColor(userSetting.getDisplayColor());
+//    setting.setLanguage(userSetting.getLanguage());
+//    setting.setSetAt(Instant.now());
+//    userSettingService.save(setting);
+//
+////        return ResponseEntity.ok("Setting saved");
+//    redirectAttributes.addFlashAttribute("message", "설정 완료");
+//    return "redirect:/posting/" + userId + "/setting.do";
+//}

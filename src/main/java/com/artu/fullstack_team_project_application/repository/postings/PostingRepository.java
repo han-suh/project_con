@@ -21,7 +21,6 @@ public interface PostingRepository extends JpaRepository<Posting, Integer> {
     // post_Id
     Posting findByPostId(Integer postId);
 
-
     // 위치 태그
     // List<Posting> findByLocationTag(String locationTag);
 

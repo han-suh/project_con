@@ -78,6 +78,8 @@
 <p><a th:href="@{'/posting/{userId}/followee.do'(userId=${user.userId})}">팔로우</a></p>
 <p th:text="${countFollowerCount}">팔로우 수</p>
 
+<a th:href="@{'/posting/{userId}/setting.do'(userId=${user.userId})}"><button>설정</button></a>
+
 <form action="/search/users.do" method="GET">
     <label for="searchUser">사람 태그</label>
     <input type="text" id="searchUser" name="searchUser" required>

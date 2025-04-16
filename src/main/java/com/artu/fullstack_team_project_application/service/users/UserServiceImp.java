@@ -9,10 +9,12 @@ import com.artu.fullstack_team_project_application.repository.postings.PostingRe
 import com.artu.fullstack_team_project_application.repository.postings.UserFollowRepository;
 import com.artu.fullstack_team_project_application.repository.users.UserImageRepository;
 import com.artu.fullstack_team_project_application.repository.users.UserRepository;
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,12 +23,14 @@ import java.util.*;
 @Slf4j
 @Service
 @AllArgsConstructor
+@Transactional
 public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
     private final UserFollowRepository userFollowRepository;
     private final PostingRepository postingRepository;
     private final UserImageRepository userImageRepository;
+    private final EntityManager entityManager;
 
     @Override
     public Page<User> readAll(Pageable pageable) {
@@ -38,38 +42,53 @@ public class UserServiceImp implements UserService {
         return userRepository.findById(userId);
     }
 
+//    @Override
+//    public void registerFollow(String followeeId, String followerId) {
+//        //
+////        User followee = userRepository.findById(followeeId).orElseThrow();
+////        User follower = userRepository.findById(followerId).orElseThrow();
+////        User followedAt = userRepository.
+//
+//        UserFollow userFollow = new UserFollow();
+////        userFollow.setFollowers(follower);
+////        userFollow.setFollowees(followee);
+//        userFollow.setFollowerId(followerId);
+//        userFollow.setFolloweeId(followeeId);
+////        userFollow.setFollowedAt();
+//        UserFollowId userFollowId = new UserFollowId();
+//        userFollowId.setFollowerId(followerId);
+//        userFollowId.setFolloweeId(followeeId);
+//        userFollowRepository.save(userFollow);
+//    }
+
     @Override
-    public void registerFollow(String followeeId, String followerId) {
-        //
-//        User followee = userRepository.findById(followeeId).orElseThrow();
-//        User follower = userRepository.findById(followerId).orElseThrow();
-//        User followedAt = userRepository.
-
-        UserFollow userFollow = new UserFollow();
-//        userFollow.setFollowers(follower);
-//        userFollow.setFollowees(followee);
-        userFollow.setFollowerId(followerId);
-        userFollow.setFolloweeId(followeeId);
-//        userFollow.setFollowedAt();
-        UserFollowId userFollowId = new UserFollowId();
-        userFollowId.setFollowerId(followerId);
-        userFollowId.setFolloweeId(followeeId);
-
-        userFollowRepository.save(userFollow);
+    public void registerFollow(UserFollowId userFollowId) {
+        UserFollow userFollow = entityManager.find(UserFollow.class, userFollowId);
+        System.out.println("userFollowId = " + userFollowId);
+        if(userFollowId != null) {
+                userFollow.setIsUsed(true);
+                System.out.println("true로 변경");
+            userFollowRepository.save(userFollow);
+        }
+        else {
+            userFollow = new UserFollow();
+            userFollow.setFolloweeId(userFollowId.getFolloweeId());
+            userFollow.setFollowerId(userFollowId.getFollowerId());
+            userFollow.setIsUsed(true);
+            System.out.println("신규");
+            userFollowRepository.save(userFollow);
+        }
     }
 
+
     @Override
-    public void removeFollow(String followeeId, String followerId) {
-        UserFollow userFollow = new UserFollow();
-        userFollow.setFollowerId(followerId);
-        userFollow.setFolloweeId(followeeId);
-        UserFollowId userFollowId = new UserFollowId();
-        userFollowId.setFollowerId(followerId);
-        userFollowId.setFolloweeId(followeeId);
-//        userFollowRepository.delete(userFollow);
-        if (userFollowRepository.existsById(userFollowId)) {
-            userFollowRepository.deleteById(userFollowId);
-        }
+    @Transactional
+    public void removeFollow(UserFollowId userFollowId) {
+        UserFollow userFollow = entityManager.find(UserFollow.class, userFollowId);
+        System.out.println(userFollow.getFolloweeId());
+        if(userFollow==null)throw new IllegalArgumentException("없습니다.");
+//        entityManager.remove(userFollow);
+        userFollow.setIsUsed(Boolean.FALSE);
     }
 
 
@@ -136,13 +155,13 @@ public class UserServiceImp implements UserService {
     @Override
     @Transactional(readOnly = true)
     public Set<UserFollow> findByFollowerId(String followerId) {
-        return userFollowRepository.findByFollowerId(followerId);
+        return userFollowRepository.findByFollowerIdAndIsUsedTrue(followerId);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Set<UserFollow> findByFolloweeId(String followeeId) {
-        return userFollowRepository.findByFolloweeId(followeeId);
+        return userFollowRepository.findByFolloweeIdAndIsUsedTrue(followeeId);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.artu.fullstack_team_project_application.service.users;
 
 import com.artu.fullstack_team_project_application.entity.postings.UserFollow;
+import com.artu.fullstack_team_project_application.entity.postings.UserFollowId;
 import com.artu.fullstack_team_project_application.entity.users.user.User;
 import com.artu.fullstack_team_project_application.entity.users.user.UserImg;
 import com.artu.fullstack_team_project_application.entity.users.user.UserInterest;
@@ -23,8 +24,8 @@ public interface UserService {
     public Optional<User> readOne(String userId);
 
     // follow 추가/삭제
-    void registerFollow(String followeeId, String followerId);
-    void removeFollow(String followeeId, String followerId);
+    void registerFollow(UserFollowId userFollow);
+    void removeFollow(UserFollowId userFollow);
 
     public User save(User user);
 

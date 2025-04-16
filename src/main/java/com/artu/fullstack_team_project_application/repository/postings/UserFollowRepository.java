@@ -16,8 +16,11 @@ import java.util.Set;
 public interface UserFollowRepository extends JpaRepository<UserFollow, UserFollowId> {
     @EntityGraph(attributePaths = {"followers", "followees"})
 
-    Set<UserFollow> findByFollowerId(String followerId);
-    Set<UserFollow> findByFolloweeId(String followeeId);
+//    @Query("SELECT uf FROM UserFollow uf JOIN FETCH uf.followerId = : followerId AND uf.isUsed = true")
+    Set<UserFollow> findByFollowerIdAndIsUsedTrue(String followerId);
+
+//    @Query("SELECT uf FROM UserFollow uf JOIN FETCH uf.followeeId = : followeeId AND uf.isUsed = true")
+    Set<UserFollow> findByFolloweeIdAndIsUsedTrue(String followeeId);
 
 //    boolean existsFollowerIdByFolloweeId(String followerId, String followeeId);
 

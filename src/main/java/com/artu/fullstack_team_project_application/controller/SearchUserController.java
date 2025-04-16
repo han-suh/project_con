@@ -27,12 +27,5 @@ public class SearchUserController {
         return ResponseEntity.ok(userList); // JSON 형태로 반환
     }
 
-//    @PostMapping("/usersearch.do")
-//    public String postForm(
-//            @RequestParam(required = false) String usersearch,  // 파라미터가 없을 경우 null 처리
-//            Model model
-//    ){
-//
-//    }
 
 }
