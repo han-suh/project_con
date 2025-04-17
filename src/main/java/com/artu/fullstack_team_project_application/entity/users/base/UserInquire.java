@@ -2,21 +2,26 @@ package com.artu.fullstack_team_project_application.entity.users.base;
 
 import com.artu.fullstack_team_project_application.entity.users.user.User;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import lombok.ToString;
+import org.hibernate.annotations.*;
 
 import java.time.Instant;
 
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE user_inquires SET is_used = false WHERE inquire_id = ?")
+@Where(clause = "is_used = true")
 @Entity
+@ToString
 @Table(name = "user_inquires")
 public class UserInquire {
 
     public enum InquiryState {Pending, Completed}
+
+    public enum InquireCategory {계정, 결제, 데이터등록, 기타}
 
     @Id
     @Column(name = "inquire_id", nullable = false)
@@ -28,9 +33,10 @@ public class UserInquire {
     private User user;
 
     @ColumnDefault("'기타'")
-    @Lob
+//    @Lob
+    @Enumerated(EnumType.STRING)
     @Column(name = "inquire_category")
-    private String inquireCategory;
+    private InquireCategory inquireCategory;
 
     @Column(name = "title", nullable = false)
     private String title;
@@ -53,5 +59,9 @@ public class UserInquire {
 
     @Column(name = "state_updated_at")
     private Instant stateUpdatedAt;
+
+    @ColumnDefault("1")
+    @Column(name = "is_used")
+    private Boolean isUsed;
 
 }

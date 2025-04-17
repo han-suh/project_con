@@ -88,7 +88,8 @@ public class UserServiceImp implements UserService {
         System.out.println(userFollow.getFolloweeId());
         if(userFollow==null)throw new IllegalArgumentException("없습니다.");
 //        entityManager.remove(userFollow);
-        userFollow.setIsUsed(Boolean.FALSE);
+        entityManager.remove(userFollow);
+//        userFollow.setIsUsed(Boolean.FALSE);
     }
 
 

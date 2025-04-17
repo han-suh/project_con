@@ -79,6 +79,7 @@
 <p th:text="${countFollowerCount}">팔로우 수</p>
 
 <a th:href="@{'/posting/{userId}/setting.do'(userId=${user.userId})}"><button>설정</button></a>
+<a th:href="@{'/inquire/findAll.do'}"><button>고객센터</button></a>
 
 <form action="/search/users.do" method="GET">
     <label for="searchUser">사람 태그</label>
@@ -258,6 +259,10 @@
     // document.getElementById("modal").style.display = "block";
 
 
+</script>
+
+<script th:if="${message}" th:inline="javascript">
+    alert([[${message}]]);
 </script>
 
 </html>

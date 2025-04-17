@@ -15,8 +15,8 @@ import java.time.Instant;
 @Setter
 @Entity
 @ToString
-@SQLDelete(sql = "UPDATE user_follow SET is_used = false WHERE followee_id = ? AND follower_id = ?")
-//@Where(clause = "is_used = true")
+@SQLDelete(sql = "UPDATE user_follow SET is_used = false WHERE follower_id = ? AND followee_id = ?")
+@Where(clause = "is_used = true")
 @Table(name = "user_follow")
 @IdClass(UserFollowId.class)
 public class UserFollow {

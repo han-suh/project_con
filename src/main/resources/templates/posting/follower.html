@@ -25,14 +25,14 @@
 
     followerBtns.forEach(button => {
         button.addEventListener("click",async function(){
-        const followerId = this.dataset.follower;
-        const followeeId = this.dataset.followee;
+        const followerId = this.dataset.followee;
+        const followeeId = this.dataset.follower;
         const url = `/posting/${USER_ID}/followee.do`; // 백틱!!!!
         const response = await fetch(url,{method:'POST',
             headers: {'Content-Type': 'application/json'},
             body : JSON.stringify({
-                followeeId: followerId,
-                followerId: followeeId
+                followeeId: followeeId,
+                followerId: followerId
             })
         });
         if (response.ok){alert("팔로우 성공")}

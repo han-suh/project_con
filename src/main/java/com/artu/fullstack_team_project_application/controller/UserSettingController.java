@@ -43,13 +43,14 @@ public class UserSettingController {
     public String saveUserSetting(
             @PathVariable String userId,
             @ModelAttribute UserSetting userSetting,
+            @RequestHeader(value = "Referer", required = false) String referer,
             RedirectAttributes redirectAttributes
             ) {
         User user = userService.findByUserId(userId).orElseThrow(() -> new RuntimeException("찾을 수 없습니다."));
         UserSetting setting = userSettingService.findOne(userId).orElse(new UserSetting());
 
         setting.setUser(user);
-        setting.setSettingId(setting.getSettingId());
+//        setting.setSettingId(userSetting.getSettingId());
         setting.setDisplayColor(userSetting.getDisplayColor());
         setting.setLanguage(userSetting.getLanguage());
         setting.setSetAt(Instant.now());
@@ -57,7 +58,9 @@ public class UserSettingController {
 
 //        return ResponseEntity.ok("Setting saved");
         redirectAttributes.addFlashAttribute("message", "설정 완료");
-        return "redirect:/posting/" + userId + "/setting.do";
+//        return "redirect:/posting/" + userId + "/setting.do";
+        return "redirect:/posting/" + userId + "/userpage.do";
+//        return "redirect:" + (referer != null ? referer : "/fallbackUrl");
     }
 
 

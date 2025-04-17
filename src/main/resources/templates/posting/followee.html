@@ -15,8 +15,8 @@
     <p th:text="${follow.followees.userName}"></p>
     <p th:text="${follow.followees.userEmail}"></p>
     <button class="followeeBtn"
-            th:data-follower="${user.userId}"
-            th:data-followee="${follow.followees.userId}">언팔로우</button>
+            th:data-followee="${user.userId}"
+            th:data-follower="${follow.followees.userId}">언팔로우</button>
 </div>
 </body>
 
