@@ -1,5 +1,6 @@
 package com.artu.fullstack_team_project_application.entity.events.event;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class ActorsImage {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "actor_id", nullable = false)
+    @JsonBackReference
     private com.artu.fullstack_team_project_application.entity.events.event.Actor actor;
 
     // @ColumnDefault("CURRENT_TIMESTAMP")

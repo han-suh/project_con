@@ -15,58 +15,97 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-@Controller //@RestController
+//@Controller
+@RestController
 @RequestMapping("posting/{userId}")
 @AllArgsConstructor
 public class UserFollowController {
     private final UserServiceImp userService;
     private final PostingService postingService;
 
+//    @GetMapping("/follower.do")
+//    public String follower(
+//            @PathVariable String userId,
+//            @RequestParam(required = false) String followerId,
+//            @RequestParam(required = false) String followeeId,
+//            Model model
+//    ) {
+//
+//        Set<UserFollow> findByFollowerId = userService.findByFollowerId(followerId);
+//        Set<UserFollow> findByFolloweeId = userService.findByFolloweeId(followeeId);
+//        Optional<User> userOptional = userService.findByUserId(userId);
+//
+//        User user = userOptional.get();
+//        model.addAttribute("user", user);
+//        model.addAttribute("findByFollowerId", findByFollowerId);
+//        model.addAttribute("findByFolloweeId", findByFolloweeId);
+//
+//        return "posting/follower"; // follower.html로 이동
+//    }
+
     @GetMapping("/follower.do")
-    public String follower(
-            @PathVariable String userId,
-            @RequestParam(required = false) String followerId,
-            @RequestParam(required = false) String followeeId,
-            Model model
-    ) {
-
-        Set<UserFollow> findByFollowerId = userService.findByFollowerId(followerId);
-        Set<UserFollow> findByFolloweeId = userService.findByFolloweeId(followeeId);
+    public ResponseEntity<Map<String, Object>> follower(
+            @PathVariable  String userId
+//            @RequestParam(required = false) String followerId
+//            @RequestParam(required = false) String followeeId
+    ){
         Optional<User> userOptional = userService.findByUserId(userId);
-
         User user = userOptional.get();
-        model.addAttribute("user", user);
-        model.addAttribute("findByFollowerId", findByFollowerId);
-        model.addAttribute("findByFolloweeId", findByFolloweeId);
+//        Set<UserFollow> findByFollowerId = userService.findByFollowerId(followerId);
+        Set<UserFollow> findByFolloweeId = userService.findByFolloweeId(userId);
 
-        return "posting/follower"; // follower.html로 이동
+        Map<String, Object> result = new HashMap<>();
+        result.put("user", user);
+//        result.put("findByFollowerId", findByFollowerId);
+//        result.put("findByFolloweeId", findByFolloweeId);
+        result.put("findByFolloweeId", findByFolloweeId);
+        return ResponseEntity.ok(result);
     }
 
 
-
+//    @GetMapping("/followee.do")
+//    public String followee(
+//            @PathVariable String userId,
+//            @RequestParam(required = false) String followeeId,
+//            @RequestParam(required = false) String followerId,
+//            Model model
+//    ) {
+//        Set<UserFollow> findByFollowerId = userService.findByFollowerId(followerId);
+//        Set<UserFollow> findByFolloweeId = userService.findByFolloweeId(followeeId);
+//        Optional<User> userOptional = userService.findByUserId(userId);
+//
+//
+//        User user = userOptional.get();
+//        model.addAttribute("user", user);
+//        model.addAttribute("findByFollowerId", findByFollowerId);
+//        model.addAttribute("findByFolloweeId", findByFolloweeId);
+//        return "posting/followee"; // followee.html로 이동
+//    }
 
     @GetMapping("/followee.do")
-    public String followee(
-            @PathVariable String userId,
-            @RequestParam(required = false) String followeeId,
-            @RequestParam(required = false) String followerId,
-            Model model
-    ) {
-        Set<UserFollow> findByFollowerId = userService.findByFollowerId(followerId);
-        Set<UserFollow> findByFolloweeId = userService.findByFolloweeId(followeeId);
+    public ResponseEntity<Map<String, Object>> followee(
+            @PathVariable  String userId
+//            @RequestParam(required = false) String followerId
+//            @RequestParam(required = false) String followeeId
+    ){
         Optional<User> userOptional = userService.findByUserId(userId);
-
-
         User user = userOptional.get();
-        model.addAttribute("user", user);
-        model.addAttribute("findByFollowerId", findByFollowerId);
-        model.addAttribute("findByFolloweeId", findByFolloweeId);
-        return "posting/followee"; // followee.html로 이동
+        Set<UserFollow> findByFollowerId = userService.findByFollowerId(userId);
+//        Set<UserFollow> findByFolloweeId = userService.findByFolloweeId(userId);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("user", user);
+        result.put("findByFollowerId", findByFollowerId);
+//        result.put("findByFolloweeId", findByFolloweeId);
+//        result.put("findByFolloweeId", findByFolloweeId);
+        return ResponseEntity.ok(result);
     }
+
 
 //    @DeleteMapping("/followee.do")
 //    public ResponseEntity<void> userUnfollow(
@@ -110,7 +149,7 @@ public class UserFollowController {
 //    setting.setSetAt(Instant.now());
 //    userSettingService.save(setting);
 //
-////        return ResponseEntity.ok("Setting saved");
+//        return ResponseEntity.ok("Setting saved");
 //    redirectAttributes.addFlashAttribute("message", "설정 완료");
 //    return "redirect:/posting/" + userId + "/setting.do";
 //}

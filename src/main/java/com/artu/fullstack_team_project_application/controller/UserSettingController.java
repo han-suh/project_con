@@ -13,6 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller //@RestController
@@ -22,20 +24,34 @@ public class UserSettingController {
     private final UserSettingService userSettingService;
     private final UserService userService;
 
+//    @GetMapping("setting.do")
+//    public String setting(
+//            Model model,
+//            @PathVariable String userId
+//    ) {
+//        Optional<UserSetting> findOne = userSettingService.findOne(userId);
+//        Optional<User> userOptional = userService.findByUserId(userId);
+////        if (findOne.isPresent() && userOptional.isPresent()) {
+//        User user = userOptional.get();
+//        model.addAttribute("user", user);
+//        model.addAttribute("userId", userId);
+//        model.addAttribute("userSetting", findOne.orElse(null));
+////        }
+//        return "posting/setting";
+//    }
+
     @GetMapping("setting.do")
-    public String setting(
-            Model model,
+    public ResponseEntity<Map<String, Object>> setting(
             @PathVariable String userId
-    ) {
+    ){
         Optional<UserSetting> findOne = userSettingService.findOne(userId);
         Optional<User> userOptional = userService.findByUserId(userId);
-//        if (findOne.isPresent() && userOptional.isPresent()) {
         User user = userOptional.get();
-        model.addAttribute("user", user);
-        model.addAttribute("userId", userId);
-        model.addAttribute("userSetting", findOne.orElse(null));
-//        }
-        return "posting/setting";
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("findOne", findOne);
+        result.put("userOptional", userOptional);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("setting.do")

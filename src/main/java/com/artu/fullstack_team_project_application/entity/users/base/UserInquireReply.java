@@ -1,5 +1,6 @@
 package com.artu.fullstack_team_project_application.entity.users.base;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class UserInquireReply {
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "reply_id", nullable = false)
+    @JsonBackReference
     private UserInquire userInquires;
 
     @Column(name = "inquire_id")

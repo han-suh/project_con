@@ -20,7 +20,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 
-@Controller
+//@Controller
+@RestController
 @RequestMapping("/posting")
 @AllArgsConstructor
 public class PostingController {
@@ -37,45 +38,69 @@ public class PostingController {
     }
 
     @GetMapping("/{userId}/userpage.do")
-    public String userpage(
-            @PathVariable String userId,
-            Model model) {
-
+    public ResponseEntity<Map<String, Object>> userpage(
+            @RequestParam String userId,
+            Model model
+    ) {
         Optional<User> userOptional = userService.readOne(userId);
-        System.out.println("userOptional:" + userOptional);
         if (!userOptional.isPresent()) {
-            return "redirect:/artu.do";
+            return ResponseEntity.badRequest().build();
         }
-
         User user = userOptional.get();
-        model.addAttribute("user", user);  // user 객체를 모델에 담기
-        model.addAttribute("userId", userId);  // userId도 모델에 담기
-
-        // followee 수
+        Map<String, Object> result = new HashMap<>();
         Map<String, Long> countFolloweeMap = userService.getCountFollowee(userId);
-        Long countFolloweeCount = countFolloweeMap.get("countFollowee");
-        model.addAttribute("countFolloweeMap", countFolloweeMap);
-        model.addAttribute("countFolloweeCount", countFolloweeCount);
-
-        // follower 수
         Map<String, Long> countFollowerMap = userService.getCountFollower(userId);
-        Long countFollowerCount = countFollowerMap.get("countFollower");
-        model.addAttribute("countFollowerMap", countFollowerMap);
-        model.addAttribute("countFollowerCount", countFollowerCount);
-
-        // posting 수
         Map<String, Long> countPostingMap = userService.getCountPosting(userId);
-        Long countPostingCount = countPostingMap.get("countPosting");
-        model.addAttribute("countPostingMap", countPostingMap);
-        model.addAttribute("countPostingCount", countPostingCount);
-
-        // user prfImg
         Set<UserImg> userImg = userService.findUserImgByUserId(userId);
-        model.addAttribute("userImg", userImg);
+        result.put("user", user);
+        result.put("countFolloweeMap", countFolloweeMap);
+        result.put("countFollowerMap", countFollowerMap);
+        result.put("countPostingMap", countPostingMap);
+        result.put("userImg", userImg);
 
-        // 템플릿에 user, followerCounts, followeeCounts를 전달
-        return "posting/userpage";
+        return ResponseEntity.ok(result);
     }
+
+//    @GetMapping("/{userId}/userpage.do")
+//    public String userpage(
+//            @PathVariable String userId,
+//            Model model) {
+//
+//        Optional<User> userOptional = userService.readOne(userId);
+//        System.out.println("userOptional:" + userOptional);
+//        if (!userOptional.isPresent()) {
+//            return "redirect:/artu.do";
+//        }
+//
+//        User user = userOptional.get();
+//        model.addAttribute("user", user);  // user 객체를 모델에 담기
+//        model.addAttribute("userId", userId);  // userId도 모델에 담기
+//
+//        // followee 수
+//        Map<String, Long> countFolloweeMap = userService.getCountFollowee(userId);
+//        Long countFolloweeCount = countFolloweeMap.get("countFollowee");
+//        model.addAttribute("countFolloweeMap", countFolloweeMap);
+//        model.addAttribute("countFolloweeCount", countFolloweeCount);
+//
+//        // follower 수
+//        Map<String, Long> countFollowerMap = userService.getCountFollower(userId);
+//        Long countFollowerCount = countFollowerMap.get("countFollower");
+//        model.addAttribute("countFollowerMap", countFollowerMap);
+//        model.addAttribute("countFollowerCount", countFollowerCount);
+//
+//        // posting 수
+//        Map<String, Long> countPostingMap = userService.getCountPosting(userId);
+//        Long countPostingCount = countPostingMap.get("countPosting");
+//        model.addAttribute("countPostingMap", countPostingMap);
+//        model.addAttribute("countPostingCount", countPostingCount);
+//
+//        // user prfImg
+//        Set<UserImg> userImg = userService.findUserImgByUserId(userId);
+//        model.addAttribute("userImg", userImg);
+//
+//        // 템플릿에 user, followerCounts, followeeCounts를 전달
+//        return "posting/userpage";
+//    }
 
 //    public List<Posting> findByUser_UserId(@PathVariable String userId, Model model) {
 //        return postingService.findByUserId(userId);
@@ -100,6 +125,8 @@ public class PostingController {
     @ResponseBody
     public ResponseEntity<Set<Posting>> postpage(
             @PathVariable String userId) {
+//        Optional<User> userOptional = userService.readOne(userId).orElseThrow()
+//        User user = userOptional.get();
         Set<Posting> postings = postingService.findByUserId(userId);
         // return ResponseEntity.ok(postings);
         return ResponseEntity.status(201).body(postings);
@@ -109,7 +136,8 @@ public class PostingController {
     @GetMapping("/{userId}/postdetail.do")
     @ResponseBody
     public ResponseEntity<Posting> post(
-            @ModelAttribute Posting posting
+            @ModelAttribute Posting posting,
+            @PathVariable String userId
             ) {
         Posting postings = postingService.findByPostId(posting.getPostId());
 

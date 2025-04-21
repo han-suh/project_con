@@ -68,12 +68,15 @@ public class Posting {
 
     @OneToMany(mappedBy = "post")
     @OrderBy("imgOrder ASC") // 정렬
+    @JsonIgnore
     private Set<PostingImage> postingImages = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "post")
+    @JsonIgnore
     private Set<PostingComment> comments = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "post")
+    @JsonIgnore
     private Set<PostingLike> postingLikes = new LinkedHashSet<>();
 
 

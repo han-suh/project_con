@@ -1,6 +1,7 @@
 package com.artu.fullstack_team_project_application.entity.events.event;
 
 import com.artu.fullstack_team_project_application.entity.users.user.UserImg;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,6 +30,7 @@ public class Actor {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "prf_img_id", nullable = false)
+    @JsonBackReference
     private UserImg prfImg;
 
     @Column(name = "bday", nullable = false)
@@ -37,6 +39,7 @@ public class Actor {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "agency_id", nullable = false)
+    @JsonBackReference
     private Agency agency;
 
     @Column(name = "is_joined", nullable = false)

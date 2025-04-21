@@ -27,7 +27,7 @@ public class UserImg {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id", nullable = false)
-//    @JsonBackReference
+    @JsonBackReference
 //    @ToString.Exclude
     private User user;
 

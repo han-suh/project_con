@@ -1,7 +1,9 @@
 package com.artu.fullstack_team_project_application.entity.postings;
 
 import com.artu.fullstack_team_project_application.entity.users.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -35,14 +37,18 @@ public class UserFollow {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "follower_id",insertable = false, updatable = false)
-    @JsonIgnore
+//    @JsonBackReference
+//    @JsonIgnoreProperties({"followees", "followers"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User followers;
 
     // follower 팔로원한 user
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "followee_id",insertable = false, updatable = false)
-    @JsonIgnore
+//    @JsonBackReference
+//    @JsonIgnoreProperties({"followees", "followers"})
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User followees;
 
     // @ColumnDefault("CURRENT_TIMESTAMP")
