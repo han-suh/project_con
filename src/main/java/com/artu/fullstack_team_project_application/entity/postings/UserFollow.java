@@ -1,6 +1,7 @@
 package com.artu.fullstack_team_project_application.entity.postings;
 
 import com.artu.fullstack_team_project_application.entity.users.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
@@ -35,15 +36,17 @@ public class UserFollow {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "follower_id",insertable = false, updatable = false)
-    @JsonIgnore
+    @JsonBackReference
     private User followers;
+//    @JsonIgnore
 
     // follower 팔로원한 user
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "followee_id",insertable = false, updatable = false)
-    @JsonIgnore
+    @JsonBackReference
     private User followees;
+//    @JsonIgnore
 
     // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "followed_at")

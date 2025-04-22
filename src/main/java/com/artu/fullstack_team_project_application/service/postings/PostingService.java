@@ -3,6 +3,7 @@ package com.artu.fullstack_team_project_application.service.postings;
 import com.artu.fullstack_team_project_application.entity.postings.Posting;
 import com.artu.fullstack_team_project_application.entity.postings.PostingImage;
 import com.artu.fullstack_team_project_application.entity.postings.PostingLike;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +17,11 @@ public interface PostingService {
     @Transactional
     // posting 등록 및 수정
     Posting save(Posting posting);
+//    Posting save(Authentication authentication, Posting posting);
 
     // posting 삭제
-    // void remove(Posting posting);
+    Posting delete(Posting posting);
+//    Posting delete(Authentication authentication, Posting posting);
 
     // posting 리스트
     // Page<Posting> findAll(Pageable pageable);

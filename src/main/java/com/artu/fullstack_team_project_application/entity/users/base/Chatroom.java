@@ -1,6 +1,7 @@
 package com.artu.fullstack_team_project_application.entity.users.base;
 
 import com.artu.fullstack_team_project_application.entity.events.event.Event;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class Chatroom {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "related_event")
+    @JsonBackReference
     private Event relatedEvent;
 
     // @ColumnDefault("CURRENT_TIMESTAMP")

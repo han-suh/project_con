@@ -4,6 +4,8 @@ import com.artu.fullstack_team_project_application.entity.users.user.User;
 import com.artu.fullstack_team_project_application.entity.users.base.Category;
 import com.artu.fullstack_team_project_application.entity.events.tickets.EventDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -57,13 +59,16 @@ public class Event {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ctgr_id", nullable = false)
+    @JsonBackReference
     private Category ctgr;
 
     @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<EventDate>eventDates=new LinkedHashSet<>();
 
 

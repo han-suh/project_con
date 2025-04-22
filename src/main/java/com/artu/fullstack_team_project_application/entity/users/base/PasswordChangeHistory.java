@@ -1,6 +1,7 @@
 package com.artu.fullstack_team_project_application.entity.users.base;
 
 import com.artu.fullstack_team_project_application.entity.users.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class PasswordChangeHistory {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     @Column(name = "old_pw", nullable = false)

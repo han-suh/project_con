@@ -16,33 +16,35 @@ import java.time.Instant;
 @Setter
 @Entity
 @ToString
-@SQLDelete(sql = "UPDATE posting_comments SET is_used = true WHERE comment_id = ?")
+@SQLDelete(sql = "UPDATE posting_comments SET is_used = false WHERE comment_id = ?")
 @Where(clause = "is_used = true")
 @Table(name = "posting_comments")
 public class PostingComment {
     @Id
     @Column(name = "comment_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer commentId;
 
 //    @Column(name = "user_id", nullable = false, length = 50)
 //    private String userId;
-
+//
 //    @Column(name = "post_id", nullable = false)
 //    private Integer postId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
     @JsonBackReference
     @ToString.Exclude
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "post_id", nullable = false)
+    @JoinColumn(name = "post_id", nullable = false, insertable = false, updatable = false)
     @JsonBackReference
     @ToString.Exclude
     private Posting post;
+//    @JsonIgnoreProperties({"comments", "postingLikes"})
 
     @Lob
     @Column(name = "contents", nullable = false)

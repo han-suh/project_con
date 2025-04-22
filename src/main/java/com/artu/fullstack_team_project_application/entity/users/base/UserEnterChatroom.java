@@ -1,6 +1,7 @@
 package com.artu.fullstack_team_project_application.entity.users.base;
 
 import com.artu.fullstack_team_project_application.entity.users.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,6 +19,7 @@ public class UserEnterChatroom {
     @MapsId
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     @Column(name = "entered_at", nullable = false)
@@ -26,6 +28,7 @@ public class UserEnterChatroom {
     @MapsId
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "chat_id", nullable = false)
+    @JsonBackReference
     private Chatroom chat;
 
 }

@@ -26,10 +26,10 @@ public class UserImg {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "user_id", nullable = false)
-//    @JsonBackReference
-//    @ToString.Exclude
+    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
+    @JsonBackReference
     private User user;
+//    @ToString.Exclude
 
     // @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "create_at")

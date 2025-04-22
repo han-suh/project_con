@@ -15,38 +15,77 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@Controller //@RestController
+//@Controller
+@RestController
 @RequestMapping("posting/{userId}")
 @AllArgsConstructor
 public class UserSettingController {
     private final UserSettingService userSettingService;
     private final UserService userService;
 
+//    @GetMapping("setting.do")
+//    public String setting(
+//            Model model,
+//            @PathVariable String userId
+//    ) {
+//        Optional<UserSetting> findOne = userSettingService.findOne(userId);
+//        Optional<User> userOptional = userService.findByUserId(userId);
+////        if (findOne.isPresent() && userOptional.isPresent()) {
+//        User user = userOptional.get();
+//        model.addAttribute("user", user);
+//        model.addAttribute("userId", userId);
+//        model.addAttribute("userSetting", findOne.orElse(null));
+////        }
+//        return "posting/setting";
+//    }
+
     @GetMapping("setting.do")
-    public String setting(
-            Model model,
+    public ResponseEntity<UserSetting> getSetting(
             @PathVariable String userId
-    ) {
+    ){
         Optional<UserSetting> findOne = userSettingService.findOne(userId);
         Optional<User> userOptional = userService.findByUserId(userId);
-//        if (findOne.isPresent() && userOptional.isPresent()) {
         User user = userOptional.get();
-        model.addAttribute("user", user);
-        model.addAttribute("userId", userId);
-        model.addAttribute("userSetting", findOne.orElse(null));
-//        }
-        return "posting/setting";
+        UserSetting userSetting = findOne.orElse(new UserSetting());
+        userSetting.setUser(user);
+        return ResponseEntity.ok(userSetting);
     }
 
+//    @PostMapping("setting.do")
+////    public ResponseEntity<String> saveUserSetting(
+//    public String saveUserSetting(
+//            @PathVariable String userId,
+//            @ModelAttribute UserSetting userSetting,
+//            @RequestHeader(value = "Referer", required = false) String referer,
+//            RedirectAttributes redirectAttributes
+//            ) {
+//        User user = userService.findByUserId(userId).orElseThrow(() -> new RuntimeException("찾을 수 없습니다."));
+//        UserSetting setting = userSettingService.findOne(userId).orElse(new UserSetting());
+//
+//        setting.setUser(user);
+////        setting.setSettingId(userSetting.getSettingId());
+//        setting.setDisplayColor(userSetting.getDisplayColor());
+//        setting.setLanguage(userSetting.getLanguage());
+//        setting.setSetAt(Instant.now());
+//        userSettingService.save(setting);
+//
+////        return ResponseEntity.ok("Setting saved");
+//        redirectAttributes.addFlashAttribute("message", "설정 완료");
+////        return "redirect:/posting/" + userId + "/setting.do";
+//        return "redirect:/posting/" + userId + "/userpage.do";
+////        return "redirect:" + (referer != null ? referer : "/fallbackUrl");
+//    }
+
+
     @PostMapping("setting.do")
-//    public ResponseEntity<String> saveUserSetting(
-    public String saveUserSetting(
+    public ResponseEntity<UserSetting> saveUserSetting(
+//    public String saveUserSetting(
             @PathVariable String userId,
-            @ModelAttribute UserSetting userSetting,
-            @RequestHeader(value = "Referer", required = false) String referer,
-            RedirectAttributes redirectAttributes
-            ) {
-        User user = userService.findByUserId(userId).orElseThrow(() -> new RuntimeException("찾을 수 없습니다."));
+            @RequestBody UserSetting userSetting
+//            @RequestHeader(value = "Referer", required = false) String referer,
+//            RedirectAttributes redirectAttributes
+    ) {
+        User user = userService.findByUserId(userId).orElseThrow(() -> new RuntimeException("없음"));
         UserSetting setting = userSettingService.findOne(userId).orElse(new UserSetting());
 
         setting.setUser(user);
@@ -56,10 +95,10 @@ public class UserSettingController {
         setting.setSetAt(Instant.now());
         userSettingService.save(setting);
 
-//        return ResponseEntity.ok("Setting saved");
-        redirectAttributes.addFlashAttribute("message", "설정 완료");
+        return ResponseEntity.ok(setting);
+//        redirectAttributes.addFlashAttribute("message", "설정 완료");
 //        return "redirect:/posting/" + userId + "/setting.do";
-        return "redirect:/posting/" + userId + "/userpage.do";
+//        return "redirect:/posting/" + userId + "/userpage.do";
 //        return "redirect:" + (referer != null ? referer : "/fallbackUrl");
     }
 

@@ -1,6 +1,8 @@
 package com.artu.fullstack_team_project_application.entity.users.base;
 
 import com.artu.fullstack_team_project_application.entity.users.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -30,6 +32,8 @@ public class UserInquire {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id", nullable = false)
+//    @JsonBackReference
+    @JsonIgnoreProperties({"password", "userBirth", "gender", "createdAt", "isUsed", "dropoutAt"})
     private User user;
 
     @ColumnDefault("'기타'")
@@ -54,6 +58,7 @@ public class UserInquire {
 
     @ColumnDefault("'Pending'")
     @Lob
+    @Enumerated(EnumType.STRING)
     @Column(name = "inquiry_state")
     private InquiryState inquiryState;
 

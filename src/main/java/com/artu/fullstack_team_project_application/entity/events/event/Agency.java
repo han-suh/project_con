@@ -1,5 +1,6 @@
 package com.artu.fullstack_team_project_application.entity.events.event;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class Agency {
     private String address;
 
     @OneToMany
+    @JsonManagedReference
     private Set<com.artu.fullstack_team_project_application.entity.events.event.Actor> actors = new LinkedHashSet<>();
 
 }

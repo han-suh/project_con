@@ -6,6 +6,13 @@
 </head>
 <body>
     <h1>고객센터</h1>
+    <p>카테고리</p>
+    <ul style="display: flex; list-style: none; padding: 0; gap: 12px;">
+        <li><a th:href="@{'/inquire/'+'${`계정`}'+'inquirecate.dd'}">계정</a></li>
+    <li>결제</li>
+    <li>데이터등록</li>
+    <li>기타</li>
+    </ul>
     <table>
         <thead>
         <tr>
@@ -14,15 +21,20 @@
             <th>내용</th>
             <th>작성자</th>
             <th>생성일자</th>
+            <th>상세보기</th>
         </tr>
         </thead>
         <tbody>
-<!--        <tr th:each="inquire : ${userInquires}">-->
-<!--            <td th:text="${inquire.inquireCategory}"></td>-->
-<!--            <td th:text="${inquire.title}"></td>-->
-<!--            <td th:text="${inquire.contents}"></td>-->
-<!--            <td th:text="${user.userName}"></td>-->
-<!--            <td th:text="${inquire.createdAt}"></td>-->
+<!--        <td th:text="${userInquires}"></td>-->
+<!--        <td th:each="inquire : ${userInquires}"></td>-->
+<!--        <td th:text="${inquire.inquireCategory}"></td>-->
+        <tr th:each="inquire : ${userInquires}">
+            <td th:text="${inquire.inquireCategory}"></td>
+            <td th:text="${inquire.title}"></td>
+            <td th:text="${inquire.contents}"></td>
+            <td th:text="${inquire.user.userName}"></td>
+            <td th:text="${inquire.createdAt}"></td>
+            <td><button></button>></td>
         </tr>
         </tbody>
     </table>

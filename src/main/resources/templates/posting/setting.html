@@ -1,37 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Setting</title>
-</head>
-<body>
-    <h1>설정</h1>
-    <p th:text=" ${user.userName}">님의 설정</p>
-<!--    <p th:text=" ${userSetting.displayColor}"></p>-->
-<!--    <p th:text=" ${userSetting.language}"></p>-->
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Setting</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <h1>설정</h1>-->
+<!--    <p th:text=" ${user.userName}">님의 설정</p>-->
+<!--&lt;!&ndash;    <p th:text=" ${userSetting.displayColor}"></p>&ndash;&gt;-->
+<!--&lt;!&ndash;    <p th:text=" ${userSetting.language}"></p>&ndash;&gt;-->
 
-    <form th:action="@{'/posting/' + ${userId} + '/setting.do'}" method="post">
-        <input type="hidden" name="userId" th:value="${userId}" />
+<!--    <form th:action="@{'/posting/' + ${userId} + '/setting.do'}" method="post">-->
+<!--        <input type="hidden" name="userId" th:value="${userId}" />-->
 
-        <label>디스플레이 모드</label>
-        <select name="displayColor">
-            <option value="Light" th:selected="${userSetting.displayColor.name() == 'Light'}">Light</option>
-            <option value="Dark" th:selected="${userSetting.displayColor.name() == 'Dark'}">Dark</option>
-        </select>
+<!--        <label>디스플레이 모드</label>-->
+<!--        <select name="displayColor">-->
+<!--            <option value="Light" th:selected="${userSetting.displayColor.name() == 'Light'}">Light</option>-->
+<!--            <option value="Dark" th:selected="${userSetting.displayColor.name() == 'Dark'}">Dark</option>-->
+<!--        </select>-->
 
-        <label>언어</label>
-        <select name="language">
-            <option value="System" th:selected="${userSetting.language.name() == 'System'}">시스템</option>
-            <option value="Korean" th:selected="${userSetting.language.name() == 'Korean'}">한국어</option>
-            <option value="English" th:selected="${userSetting.language.name() == 'English'}">영어</option>
-        </select>
+<!--        <label>언어</label>-->
+<!--        <select name="language">-->
+<!--            <option value="System" th:selected="${userSetting.language.name() == 'System'}">시스템</option>-->
+<!--            <option value="Korean" th:selected="${userSetting.language.name() == 'Korean'}">한국어</option>-->
+<!--            <option value="English" th:selected="${userSetting.language.name() == 'English'}">영어</option>-->
+<!--        </select>-->
 
-        <button type="submit">저장</button>
-    </form>
+<!--        <button type="submit">저장</button>-->
+<!--    </form>-->
 
-<!--    <h3>Flash Message: <span th:text="${message}">[없음]</span></h3>-->
-</body>
-<!--<script th:if="${message != null}" th:inline="javascript">-->
-<!--    alert([[${message}]]);-->
-<!--</script>-->
-</html>
+<!--&lt;!&ndash;    <h3>Flash Message: <span th:text="${message}">[없음]</span></h3>&ndash;&gt;-->
+<!--</body>-->
+<!--&lt;!&ndash;<script th:if="${message != null}" th:inline="javascript">&ndash;&gt;-->
+<!--&lt;!&ndash;    alert([[${message}]]);&ndash;&gt;-->
+<!--&lt;!&ndash;</script>&ndash;&gt;-->
+<!--</html>-->

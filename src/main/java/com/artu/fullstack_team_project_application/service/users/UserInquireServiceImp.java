@@ -31,17 +31,22 @@ public class UserInquireServiceImp implements UserInquireService {
     }
 
     @Override
-    public void delete(String userId) {
+    public void delete(String userId, Integer inquireId) {
 //        UserInquire userInquire = new UserInquire();
 //        userInquire.setUser(user);
 //        userInquire.setTitle(userInquire.getTitle());
 //        userInquire.setContents(userInquire.getContents());
 //        userInquire.setInquireCategory(userInquire.getInquireCategory());
 //        userInquireRepository.delete(userInquire);
-        Optional<UserInquire> optUserInquire = userInquireRepository.findOneByUser_UserId(userId);
+        Optional<UserInquire> optUserInquire = userInquireRepository.findOneByInquireIdAndUser_UserId(inquireId, userId);
         if(optUserInquire.isPresent()) {
             userInquireRepository.delete(optUserInquire.get());
         }
+    }
+
+    @Override
+    public List<UserInquire> findAll() {
+        return userInquireRepository.findAll();
     }
 
     @Override
@@ -59,8 +64,8 @@ public class UserInquireServiceImp implements UserInquireService {
     }
 
     @Override
-    public List<UserInquire> findALL() {
-        return userInquireRepository.findAll();
+    public Optional<UserInquire> findOneByInquireIdAndUser_UserId(Integer inquireId, String UserId){
+        return userInquireRepository.findOneByInquireIdAndUser_UserId(inquireId, UserId);
     }
 
 

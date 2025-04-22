@@ -2,6 +2,7 @@ package com.artu.fullstack_team_project_application.entity.users.base;
 
 import com.artu.fullstack_team_project_application.entity.events.event.Event;
 import com.artu.fullstack_team_project_application.entity.users.user.UserInterest;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,6 +32,7 @@ public class Category {
     private Set<Event> events = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "ctgr")
+    @JsonManagedReference
     private Set<UserInterest> userInterests = new LinkedHashSet<>();
 
 }

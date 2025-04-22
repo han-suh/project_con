@@ -2,6 +2,7 @@ package com.artu.fullstack_team_project_application.entity.postings;
 
 import com.artu.fullstack_team_project_application.entity.users.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -15,7 +16,7 @@ import java.time.Instant;
 @Setter
 @Entity
 @ToString
-@SQLDelete(sql = "UPDATE postings SET is_used = true WHERE post_id = ?")
+@SQLDelete(sql = "UPDATE postings SET is_used = false WHERE post_id = ?")
 @Where(clause = "is_used = true")
 @Table(name = "posting_like")
 @IdClass(PostingLikeId.class)
@@ -44,6 +45,7 @@ public class PostingLike {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "post_id", nullable = false)
     @JsonBackReference
+//    @JsonIgnoreProperties({"postingLikes", "comments"})
     @ToString.Exclude
     private Posting post;
 

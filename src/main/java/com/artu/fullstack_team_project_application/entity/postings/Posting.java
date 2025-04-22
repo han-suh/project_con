@@ -22,7 +22,7 @@ import java.util.Set;
 @Setter
 @Entity
 @ToString
-@SQLDelete(sql = "UPDATE postings SET is_used = true WHERE post_id = ?")
+@SQLDelete(sql = "UPDATE postings SET is_used = false WHERE post_id = ?")
 @Where(clause = "is_used = true")
 @Table(name = "postings")
 public class Posting {
@@ -68,12 +68,24 @@ public class Posting {
 
     @OneToMany(mappedBy = "post")
     @OrderBy("imgOrder ASC") // 정렬
+//    @JsonIgnore
+    @JsonManagedReference
+    @ToString.Exclude
     private Set<PostingImage> postingImages = new LinkedHashSet<>();
+//    @JsonManagedReference
 
+//    @JsonIgnore
+//    @ToString.Exclude
+//    @JsonManagedReference
     @OneToMany(mappedBy = "post")
+    @JsonIgnoreProperties({"comments", "postingLikes"})
     private Set<PostingComment> comments = new LinkedHashSet<>();
 
+//    @JsonBackReference
+//    @ToString.Exclude
+//    @JsonIgnore
     @OneToMany(mappedBy = "post")
+    @JsonManagedReference
     private Set<PostingLike> postingLikes = new LinkedHashSet<>();
 
 
